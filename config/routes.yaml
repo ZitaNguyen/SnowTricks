@@ -7,3 +7,7 @@ controllers:
 home:
     path: /
     controller: App\Controller\HomeController::index
+
+trick_details:
+    path: /trick/slug
+    controller: App\Controller\TrickController::getTrick
