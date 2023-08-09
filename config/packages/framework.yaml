@@ -18,6 +18,11 @@ framework:
     php_errors:
         log: true
 
+    assets:
+        version: 'v1' # You can configure asset versioning here
+        version_format: '%%s?version=%%s' # The format for versioned URLs
+        base_path: '/assets' # Configure base path for assets
+
 when@test:
     framework:
         test: true
