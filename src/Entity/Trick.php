@@ -75,24 +75,24 @@ class Trick
         return $this;
     }
 
-    public function getGroupId(): ?int
+    public function getGroupId(): ?Group
     {
         return $this->group_id;
     }
 
-    public function setGroupId(int $group_id): static
+    public function setGroupId(?Group $group_id): static
     {
         $this->group_id = $group_id;
 
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUserId(): ?User
     {
         return $this->user_id;
     }
 
-    public function setUserId(int $user_id): static
+    public function setUserId(?User $user_id): static
     {
         $this->user_id = $user_id;
 
