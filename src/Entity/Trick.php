@@ -6,11 +6,13 @@ use App\Repository\TrickRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[UniqueEntity('slug')]
 class Trick
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -25,16 +27,19 @@ class Trick
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable:false)]
+    #[ORM\ManyToOne(targetEntity: "App\Entity\Group")]
+    #[ORM\JoinColumn(name:"group_id", referencedColumnName:"id", nullable:false)]
     private ?Group $group_id = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable:false)]
+    #[ORM\ManyToOne(targetEntity: "App\Entity\User")]
+    #[ORM\JoinColumn(name:"user_id", referencedColumnName:"id", nullable:false)]
     private ?User $user_id = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $modified_at = null;
 
     public function getId(): ?int
     {
@@ -64,6 +69,13 @@ class Trick
 
         return $this;
     }
+
+    // public function computeSlug(SluggerInterface $slugger)
+    // {
+    //     if (!$this->slug || '-' === $this->slug) {
+    //         $this->slug = (string) $slugger->slug((string) $this)->lower();
+    //     }
+    // }
 
     public function getDescription(): ?string
     {
@@ -109,6 +121,18 @@ class Trick
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getModifiedAt(): ?\DateTimeInterface
+    {
+        return $this->modified_at;
+    }
+
+    public function setModifiedAt(?\DateTimeInterface $modified_at): static
+    {
+        $this->modified_at = $modified_at;
 
         return $this;
     }
