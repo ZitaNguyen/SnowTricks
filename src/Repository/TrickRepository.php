@@ -21,23 +21,28 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-//    /**
-//     * @return Trick[] Returns an array of Trick objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+        * @return Trick[] Returns an array of Trick objects
+        */
+    public function getTricks(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
 
-   public function findTrickBySlug(string $slug): array
-   {
+        $sql = '
+            SELECT *
+            FROM Trick t
+        ';
+
+        $resultSet = $conn->executeQuery($sql);
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+    /**
+     *
+     */
+    public function findTrickBySlug(string $slug): array
+    {
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
@@ -51,5 +56,5 @@ class TrickRepository extends ServiceEntityRepository
         $resultSet = $conn->executeQuery($sql, ['slug' => $slug]);
 
         return $resultSet->fetchAllAssociative();
-   }
+    }
 }
