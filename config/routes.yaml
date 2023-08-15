@@ -11,3 +11,19 @@ home:
 trick_details:
     path: /trick/{slug}
     controller: App\Controller\TrickController::getTrick
+
+login:
+    path: /login
+    controller: App\Controller\LoginController::index
+
+registration:
+    path: /register
+    controller: App\Controller\RegistrationController::index
+
+forgot_password:
+    path: /forgot_password
+    controller: App\Controller\LoginController::forgetPassword
+
+reset_password:
+    path: /reset_password/token
+    controller: App\Controller\LoginController::resetPassword
