@@ -22,7 +22,7 @@ registration:
 
 forgot_password:
     path: /forgot_password
-    controller: App\Controller\LoginController::forgetPassword
+    controller: App\Controller\LoginController::forgotPassword
 
 reset_password:
     path: /reset_password/token

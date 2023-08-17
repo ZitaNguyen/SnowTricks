@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -21,7 +22,10 @@ class RegistrationController extends AbstractController
         //     $plaintextPassword
         // );
         // $user->setPassword($hashedPassword);
+        $form = $this->createForm(RegistrationFormType::class);
 
-        return $this->render('registration/index.html.twig');
+        return $this->render('registration/index.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
 }
