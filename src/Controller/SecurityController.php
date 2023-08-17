@@ -3,20 +3,26 @@
 namespace App\Controller;
 
 use App\Form\ForgotPasswordFormType;
-use App\Form\LoginFormType;
 use App\Form\ResetPasswordFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class LoginController extends AbstractController
+class SecurityController extends AbstractController
 {
 
-    public function index(): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        $form = $this->createForm(LoginFormType::class);
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('authentication/login.html.twig', [
-            'loginForm' => $form->createView(),
+            'error'     => $error,
+            'lastUsername' => $lastUsername
         ]);
     }
 
