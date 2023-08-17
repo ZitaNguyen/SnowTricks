@@ -6,9 +6,9 @@ controllers:
 
 home:
     path: /
-    controller: App\Controller\HomeController::index
+    controller: App\Controller\TrickController::index
 
-trick_details:
+get_trick:
     path: /trick/{slug}
     controller: App\Controller\TrickController::getTrick
 

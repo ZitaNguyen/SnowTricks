@@ -22,6 +22,6 @@ class RegistrationController extends AbstractController
         // );
         // $user->setPassword($hashedPassword);
 
-        return $this->render('registration.html.twig');
+        return $this->render('registration/index.html.twig');
     }
 }
