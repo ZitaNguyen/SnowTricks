@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Ajoutez un figure
+{% endblock %}
+
+{% block body %}
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bolder">Ajoutez un figure</h1>
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    {{ form_start(addTrickForm) }}
+                        <div class="form-floating mb-3">
+                            {{ form_row(addTrickForm.name) }}
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form_row(addTrickForm.slug) }}
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form_row(addTrickForm.group_id) }}
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form_row(addTrickForm.description) }}
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form_row(addTrickForm.images) }}
+                        </div>
+
+                         <!-- Submit Button-->
+                        <div class="d-grid">
+                            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">
+                                Ajoutez
+                            </button>
+                        </div>
+
+                    {{ form_end(addTrickForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
