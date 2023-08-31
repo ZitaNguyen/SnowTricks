@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\User;
 use App\Form\AddTrickFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManager;
@@ -69,8 +70,8 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newTrick = $form->getData();
-            // $newTrick->setUserId($this->getUser()->getId());
-            // $newTrick->setGroupId('1');
+            $newTrick->setUserID($this->getUser()->getId());
+            // $newTrick->setGroupID('1');
             $this->em->persist($newTrick);
             $this->em->flush();
 

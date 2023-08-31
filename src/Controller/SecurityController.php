@@ -20,7 +20,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('authentication/login.html.twig', [
+        return $this->render('security/login.html.twig', [
             'error'     => $error,
             'lastUsername' => $lastUsername
         ]);
@@ -30,7 +30,7 @@ class SecurityController extends AbstractController
     {
         $form = $this->createForm(ForgotPasswordFormType::class);
 
-        return $this->render('authentication/forgot-password.html.twig', [
+        return $this->render('security/forgot-password.html.twig', [
             'forgotPasswordForm' => $form->createView(),
         ]);
     }
@@ -39,7 +39,7 @@ class SecurityController extends AbstractController
     {
         $form = $this->createForm(ResetPasswordFormType::class);
 
-        return $this->render('authentication/reset-password.html.twig', [
+        return $this->render('security/reset-password.html.twig', [
             'resetPasswordForm' => $form->createView(),
         ]);
     }

@@ -21,40 +21,28 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    /**
-        * @return Trick[] Returns an array of Trick objects
-        */
-    public function getTricks(): array
-    {
-        $conn = $this->getEntityManager()->getConnection();
+//    /**
+//     * @return Trick[] Returns an array of Trick objects
+//     */
+//    public function findByExampleField($value): array
+//    {
+//        return $this->createQueryBuilder('t')
+//            ->andWhere('t.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('t.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
 
-        $sql = '
-            SELECT *
-            FROM Trick t
-        ';
-
-        $resultSet = $conn->executeQuery($sql);
-
-        return $resultSet->fetchAllAssociative();
-    }
-
-    /**
-     *
-     */
-    public function findTrickBySlug(string $slug): array
-    {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = '
-            SELECT t.*, gr.name group_name, u.username
-            FROM Trick t
-            INNER JOIN `Group` gr ON gr.id = t.group_id
-            INNER JOIN User u ON u.id = t.user_id
-            WHERE t.slug = :slug
-            ';
-
-        $resultSet = $conn->executeQuery($sql, ['slug' => $slug]);
-
-        return $resultSet->fetchAllAssociative();
-    }
+//    public function findOneBySomeField($value): ?Trick
+//    {
+//        return $this->createQueryBuilder('t')
+//            ->andWhere('t.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 }
