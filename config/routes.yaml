@@ -11,6 +11,13 @@ home:
 get_trick:
     path: /trick/{slug}
     controller: App\Controller\TrickController::getTrick
+    requirements:
+        slug: '[a-zA-Z0-9-]+'
+    methods: ['GET']
+
+add_trick:
+    path: /add_trick
+    controller: App\Controller\TrickController::addTrick
 
 app_login:
     path: /login

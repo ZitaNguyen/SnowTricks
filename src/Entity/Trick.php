@@ -5,14 +5,10 @@ namespace App\Entity;
 use App\Repository\TrickRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
-#[UniqueEntity('slug')]
 class Trick
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,25 +17,25 @@ class Trick
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Group")]
-    #[ORM\JoinColumn(name:"group_id", referencedColumnName:"id", nullable:false)]
-    private ?Group $group_id = null;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\User")]
-    #[ORM\JoinColumn(name:"user_id", referencedColumnName:"id", nullable:false)]
-    private ?User $user_id = null;
-
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $modified_at = null;
+    private ?\DateTimeInterface $modifiedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tricks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $userID = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tricks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Group $groupID = null;
 
     public function getId(): ?int
     {
@@ -70,13 +66,6 @@ class Trick
         return $this;
     }
 
-    // public function computeSlug(SluggerInterface $slugger)
-    // {
-    //     if (!$this->slug || '-' === $this->slug) {
-    //         $this->slug = (string) $slugger->slug((string) $this)->lower();
-    //     }
-    // }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -89,50 +78,50 @@ class Trick
         return $this;
     }
 
-    public function getGroupId(): ?Group
-    {
-        return $this->group_id;
-    }
-
-    public function setGroupId(?Group $group_id): static
-    {
-        $this->group_id = $group_id;
-
-        return $this;
-    }
-
-    public function getUserId(): ?User
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): static
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getModifiedAt(): ?\DateTimeInterface
     {
-        return $this->modified_at;
+        return $this->modifiedAt;
     }
 
-    public function setModifiedAt(?\DateTimeInterface $modified_at): static
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): static
     {
-        $this->modified_at = $modified_at;
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    public function getUserID(): ?User
+    {
+        return $this->userID;
+    }
+
+    public function setUserID(?User $userID): static
+    {
+        $this->userID = $userID;
+
+        return $this;
+    }
+
+    public function getGroupID(): ?Group
+    {
+        return $this->groupID;
+    }
+
+    public function setGroupID(?Group $groupID): static
+    {
+        $this->groupID = $groupID;
 
         return $this;
     }
