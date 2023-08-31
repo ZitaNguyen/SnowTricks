@@ -30,12 +30,12 @@ class TrickController extends AbstractController
     public function index(): Response
     {
         // Get tricks
-        $tricks = $this->trickRepository->getTricks();
+        // $tricks = $this->trickRepository->getTricks();
 
-        if (empty($tricks)) {
-            throw $this->createNotFoundException('No trick added');
-        }
-
+        // if (empty($tricks)) {
+        //     throw $this->createNotFoundException('No trick added');
+        // }
+        $tricks = [];
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricks
         ]);

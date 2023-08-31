@@ -4,8 +4,7 @@
     Accueil
 {% endblock %}
 
-{% block body %}
-<!-- Header-->
+{% block header %}
 <header class="bg-image py-5 d-flex align-items-center justify-content-center" style="background-image: url({{ asset('image/snowtricks.jpg') }}); background-size: cover; height: 500px;">>
     <div class="container px-5">
         <div class="my-5 text-center">
@@ -14,9 +13,10 @@
         </div>
     </div>
 </header>
+{% endblock %}
+
+{% block body %}
 <!-- Blog preview section-->
-<section class="py-5">
-    <div class="container px-5 my-5">
         {# <div class="row gx-5 justify-content-center">
             <div class="col-lg-8 col-xl-6">
                 <div class="text-center">
@@ -25,22 +25,24 @@
                 </div>
             </div>
         </div> #}
-        <div class="row gx-5">
-            {% for trick in tricks %}
-            <div class="col-lg-3 mb-5">
-                <div class="card h-100 shadow border-0">
-                    <img class="card-img-top" src="https://dummyimage.com/600x350/ced4da/6c757d" alt="..." />
-                    <div class="card-footer p-4 bg-transparent border-top-0">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div><a href="{{ path('get_trick', { slug: trick.slug }) }}">{{ trick.name }}</a></div>
-                            <div><i class="bi bi-pencil-fill"></i></div>
-                            <div><i class="bi bi-trash-fill"></i></div>
-                        </div>
+<div class="row gx-5">
+    {% if tricks is empty%}
+        <p>No trick is added.</p>
+    {% else %}
+        {% for trick in tricks %}
+        <div class="col-lg-3 mb-5">
+            <div class="card h-100 shadow border-0">
+                <img class="card-img-top" src="https://dummyimage.com/600x350/ced4da/6c757d" alt="..." />
+                <div class="card-footer p-4 bg-transparent border-top-0">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div><a href="{{ path('get_trick', { slug: trick.slug }) }}">{{ trick.name }}</a></div>
+                        <div><i class="bi bi-pencil-fill"></i></div>
+                        <div><i class="bi bi-trash-fill"></i></div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-    </div>
-</section>
+        {% endfor %}
+    {% endif %}
+</div>
 {% endblock %}
