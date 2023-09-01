@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ForgotPasswordFormType extends AbstractType
 {
@@ -20,6 +21,11 @@ class ForgotPasswordFormType extends AbstractType
                     'style' => 'height:4rem',
                     'placeholder' => 'Nom d\'utilisateur'
                 ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer votre nom d\'utilisateur.',
+                    ])
+                ]
             ])
         ;
     }

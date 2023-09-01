@@ -13,15 +13,19 @@ security:
                 class: App\Entity\User
                 property: username
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+        # dev:
+        #     pattern: ^/(_(profiler|wdt)|css|images|js)/
+        #     security: false
         main:
+            pattern: ^/profile
             form_login:
                 login_path: app_login
                 check_path: app_login
                 default_target_path: home
                 # always_use_default_target_path: true
+            logout:
+                path: app_logout
+                target: home
         secured_area:
             form_login:
                 enable_csrf: true
@@ -30,7 +34,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
