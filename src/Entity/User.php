@@ -104,11 +104,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function setRoles(array $roles): static
     {
-        // Always include the default role when setting roles
-        if (!in_array('ROLE_USER', $roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-        // Set the roles
         $this->roles = $roles;
 
         return $this;

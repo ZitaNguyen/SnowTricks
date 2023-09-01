@@ -22,6 +22,9 @@ security:
                 check_path: app_login
                 default_target_path: home
                 # always_use_default_target_path: true
+        secured_area:
+            form_login:
+                enable_csrf: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
