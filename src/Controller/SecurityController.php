@@ -21,10 +21,18 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [
-            'error'     => $error,
-            'lastUsername' => $lastUsername
+            'error'         => $error,
+            'lastUsername'  => $lastUsername
         ]);
     }
+
+
+    public function logout(): never
+    {
+        // controller can be blank: it will never be called!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+    }
+    
 
     public function forgotPassword(): Response
     {

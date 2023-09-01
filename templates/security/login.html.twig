@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Login
+    Connexion
 {% endblock %}
 
 {% block body %}
@@ -18,7 +18,7 @@
                 </div>
             {% endif %}
 
-            <form id="loginForm" action="{{ path('app_login') }}" method="post" data-sb-form-api-token="API_TOKEN">
+            <form id="loginForm" action="{{ path('app_login') }}" method="post">
                 <!-- Username-->
                 <div class="form-floating mb-3">
                     <input class="form-control" id="name" name="_username" type="text" placeholder="Mot de passe..." value="{{ lastUsername }}" data-sb-validations="required" />
@@ -31,7 +31,9 @@
                     <label for="name">Mot de passe</label>
                 </div>
 
-                    <!-- Submit Button-->
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <!-- Submit Button-->
                 <div class="d-grid">
                     <button class="btn btn-primary btn-lg" id="submitButton" type="submit">
                         Connectez
