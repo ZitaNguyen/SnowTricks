@@ -37,6 +37,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = ['ROLE_USER'];
 
+    private ?string $plainPassword = null;
+
     #[ORM\OneToMany(mappedBy: 'userID', targetEntity: Trick::class)]
     private Collection $tricks;
 
@@ -73,6 +75,19 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
         return $this;
     }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
 
     public function getPassword(): ?string
     {
