@@ -2,18 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Form\ForgotPasswordFormType;
-use App\Form\ResetPasswordFormType;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -21,13 +12,11 @@ class SecurityController extends AbstractController
 {
 
     private $utils;
-    private $security;
 
 
-    public function __construct(AuthenticationUtils $utils, Security $security)
+    public function __construct(AuthenticationUtils $utils)
     {
         $this->utils = $utils;
-        $this->security = $security;
     }
 
 
