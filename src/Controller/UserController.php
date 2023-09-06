@@ -19,16 +19,14 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class UserController extends AbstractController
 {
     private $entityManager;
-    private $passwordHasher;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->passwordHasher = $passwordHasher;
     }
 
 
-    #[Route('/register', name: 'registration', methods: ['POST'])]
+    #[Route('/register', name: 'registration', methods: ['GET', 'POST'])]
     public function register(Request $request, SluggerInterface $slugger): Response
     {
         $user = new User;
@@ -37,13 +35,6 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-
-            // hash the password
-            $hashedPassword = $this->passwordHasher->hashPassword(
-                $user,
-                $user->getPassword()
-            );
-            $user->setPassword($hashedPassword);
 
             // upload image
             $image = $form->get('image')->getData();
