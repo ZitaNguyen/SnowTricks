@@ -76,88 +76,88 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/forgot_password', name: 'forgot_password', methods: ['GET', 'POST'])]
-    public function forgotPassword(Request $request, MailerInterface $mailer): Response
-    {
-        // Create a form for password reset request
-        $form = $this->createForm(ForgotPasswordFormType::class);
-        $form->handleRequest($request);
+    // #[Route('/forgot_password', name: 'forgot_password', methods: ['GET', 'POST'])]
+    // public function forgotPassword(Request $request, MailerInterface $mailer): Response
+    // {
+    //     // Create a form for password reset request
+    //     $form = $this->createForm(ForgotPasswordFormType::class);
+    //     $form->handleRequest($request);
 
-        // Handle form submission
-        if ($form->isSubmitted() && $form->isValid()) {
-            $username = $form->get('username')->getData();
-            // Generate a token
+    //     // Handle form submission
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $username = $form->get('username')->getData();
+    //         // Generate a token
 
-            // Send an email with a link containing the token
-            if ($this->repository->findUserByUsername($username)) { // check username exists in db
-                $email = (new Email())
-                ->from('test@test.fr')
-                ->to('anothertest@test.fr')
-                ->subject('Réinitialisation votre mot de passe')
-                ->text('Token: xxx');
+    //         // Send an email with a link containing the token
+    //         if ($this->repository->findUserByUsername($username)) { // check username exists in db
+    //             $email = (new Email())
+    //             ->from('test@test.fr')
+    //             ->to('anothertest@test.fr')
+    //             ->subject('Réinitialisation votre mot de passe')
+    //             ->text('Token: xxx');
 
-                try {
-                    $mailer->send($email);
-                } catch (TransportExceptionInterface $e) {
-                    $this->addFlash('danger', "Echec d\'envoyer email pour réinitialiser votre mot de passe. $e");
-                    return $this->redirectToRoute('forget_password');
-                }
+    //             try {
+    //                 $mailer->send($email);
+    //             } catch (TransportExceptionInterface $e) {
+    //                 $this->addFlash('danger', "Echec d\'envoyer email pour réinitialiser votre mot de passe. $e");
+    //                 return $this->redirectToRoute('forget_password');
+    //             }
 
-                // Save the token and expiration timestamp in the database
+    //             // Save the token and expiration timestamp in the database
 
-                // Send a success message to the user
-                $this->addFlash('success', 'Un email avec le lien de réinitialisation du mot de passe est envoyé.');
+    //             // Send a success message to the user
+    //             $this->addFlash('success', 'Un email avec le lien de réinitialisation du mot de passe est envoyé.');
 
-                // Redirect to home page
-                return $this->redirectToRoute('home');
-            }
+    //             // Redirect to home page
+    //             return $this->redirectToRoute('home');
+    //         }
 
-            $this->addFlash('danger', 'Votre nom n\'exist pas dans la base de donnée.');
-        }
+    //         $this->addFlash('danger', 'Votre nom n\'exist pas dans la base de donnée.');
+    //     }
 
-        return $this->render('user/forgot-password.html.twig', [
-            'forgotPasswordForm' => $form->createView(),
-        ]);
-    }
+    //     return $this->render('user/forgot-password.html.twig', [
+    //         'forgotPasswordForm' => $form->createView(),
+    //     ]);
+    // }
 
 
-    #[Route('/reset_password/token', name: 'reset_password', methods: ['GET', 'POST'])]
-    public function resetPassword(Request $request, User $user, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
-    {
-        // Verify the token and expiration timestamp
-        if ($user->isPasswordResetTokenValid())
-        {
-            // If valid, create a form for setting the new password
-            $form = $this->createForm(ResetPasswordFormType::class);
-            $form->handleRequest($request);
+    // #[Route('/reset_password/token', name: 'reset_password', methods: ['GET', 'POST'])]
+    // public function resetPassword(Request $request, User $user, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    // {
+    //     // Verify the token and expiration timestamp
+    //     if ($user->isPasswordResetTokenValid())
+    //     {
+    //         // If valid, create a form for setting the new password
+    //         $form = $this->createForm(ResetPasswordFormType::class);
+    //         $form->handleRequest($request);
 
-            // Handle form submission and update the user's password
-            if ($form->isSubmitted() && $form->isValid())
-            {
-                $user = $form->getData();
+    //         // Handle form submission and update the user's password
+    //         if ($form->isSubmitted() && $form->isValid())
+    //         {
+    //             $user = $form->getData();
 
-                // hash the password
-                $hashedPassword = $passwordHasher->hashPassword(
-                    $user,
-                    $user->getPassword()
-                );
-                $user->setPassword($hashedPassword);
+    //             // hash the password
+    //             $hashedPassword = $passwordHasher->hashPassword(
+    //                 $user,
+    //                 $user->getPassword()
+    //             );
+    //             $user->setPassword($hashedPassword);
 
-                // Save the updated user
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->flush();
+    //             // Save the updated user
+    //             $entityManager = $this->getDoctrine()->getManager();
+    //             $entityManager->flush();
 
-                // Send a success message to the user
-                $this->addFlash('success', 'Votre nouveau mot de passe est bien enregistré! Veuillez connecter...');
+    //             // Send a success message to the user
+    //             $this->addFlash('success', 'Votre nouveau mot de passe est bien enregistré! Veuillez connecter...');
 
-                // Redirect to a login page
-                return $this->redirectToRoute('app_login');
-            }
-        }
+    //             // Redirect to a login page
+    //             return $this->redirectToRoute('app_login');
+    //         }
+    //     }
 
-        return $this->render('user/reset-password.html.twig', [
-            'resetPasswordForm' => $form->createView(),
-        ]);
-    }
+    //     return $this->render('user/reset-password.html.twig', [
+    //         'resetPasswordForm' => $form->createView(),
+    //     ]);
+    // }
 
 }

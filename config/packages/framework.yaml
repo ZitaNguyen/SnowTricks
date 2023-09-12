@@ -18,6 +18,10 @@ framework:
     php_errors:
         log: true
 
+    router:
+        http_port: 8000
+        https_port: 443
+
     assets:
         version: 'v1' # You can configure asset versioning here
         version_format: '%%s?version=%%s' # The format for versioned URLs
