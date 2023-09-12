@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ForgotPasswordFormType;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -19,10 +21,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class UserController extends AbstractController
 {
     private $entityManager;
+    private $repository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, UserRepository $repository)
     {
         $this->entityManager = $entityManager;
+        $this->repository = $repository;
     }
 
 
@@ -85,12 +89,12 @@ class UserController extends AbstractController
             // Generate a token
 
             // Send an email with a link containing the token
-            if ($username == 'zn') { // check username exists in db
+            if ($this->repository->findUserByUsername($username)) { // check username exists in db
                 $email = (new Email())
-                ->from('zitanguyen84@gmail.com')
-                ->to('zitamama84@gmail.com')
-                ->subject('Hello, World!')
-                ->text('This is the email body.');
+                ->from('test@test.fr')
+                ->to('anothertest@test.fr')
+                ->subject('Réinitialisation votre mot de passe')
+                ->text('Token: xxx');
 
                 try {
                     $mailer->send($email);
@@ -107,6 +111,7 @@ class UserController extends AbstractController
                 // Redirect to home page
                 return $this->redirectToRoute('home');
             }
+
             $this->addFlash('danger', 'Votre nom n\'exist pas dans la base de donnée.');
         }
 
