@@ -2,8 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Group;
+use App\Entity\Image;
+use App\Entity\Trick;
 use App\Entity\User;
-
+use App\Entity\Video;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
@@ -24,6 +27,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         // Users
+        $users = [];
         for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $user->setUsername($this->faker->name())
@@ -34,6 +38,52 @@ class AppFixtures extends Fixture
             $users[] = $user;
             $manager->persist($user);
         }
+
+        // Groups
+        $groups = [];
+        for ($i = 0; $i < 5; $i++) {
+            $group = new Group();
+            $group->setName($this->faker->word());
+
+            $groups[] = $group;
+            $manager->persist($group);
+        }
+
+        // Tricks
+        $tricks = [];
+        for ($i = 0; $i < 10; $i++) {
+            $trick = new Trick();
+            $trick->setName($this->faker->word())
+                ->setSlug($this->faker->slug())
+                ->setDescription($this->faker->text(300))
+                ->setUserID($users[mt_rand(0, count($users) - 1)])
+                ->setGroupID($groups[mt_rand(0, count($groups) - 1)]);
+
+            $tricks[] = $trick;
+            $manager->persist($trick);
+        }
+
+        // Images
+        // $images = [];
+        // for ($i = 0; $i < 10; $i++) {
+        //     $image = new Image();
+        //     $image->setImage($this->faker->image())
+        //         ->setTrickID($tricks[mt_rand(0, count($tricks) - 1)]);
+
+        //     $images[] = $image;
+        //     $manager->persist($image);
+        // }
+
+        // Videos
+        // $videos = [];
+        // for ($i = 0; $i < 10; $i++) {
+        //     $video = new Video();
+        //     $video->setVideo($this->faker->video())
+        //         ->setTrickID($tricks[mt_rand(0, count($tricks) - 1)]);
+
+        //     $videos[] = $video;
+        //     $manager->persist($video);
+        // }
 
         $manager->flush();
     }

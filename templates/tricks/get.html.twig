@@ -52,10 +52,10 @@
             <p class="fs-5 mb-4">{{ trick.description }}</p>
             <!-- Post categories-->
             <div class="text-center">
-                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.username }}</a>
-                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.created_at }}</a>
-                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.modified_at }}</a>
-                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.group_name }}</a>
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.userId.username }}</a>
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getCreatedAt().format('d/m/Y') }}</a>
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getModifiedAt().format('d/m/Y') }}</a>
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.groupId.name }}</a>
             </div>
         </section>
     </article>
