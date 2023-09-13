@@ -4,16 +4,16 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-home:
-    path: /
-    controller: App\Controller\TrickController::index
+# home:
+#     path: /
+#     controller: App\Controller\TrickController::index
 
-get_trick:
-    path: /trick/{slug}
-    controller: App\Controller\TrickController::getTrick
-    requirements:
-        slug: '[a-zA-Z0-9-]+'
-    methods: ['GET']
+# get_trick:
+#     path: /trick/{slug}
+#     controller: App\Controller\TrickController::getTrick
+#     requirements:
+#         slug: '[a-zA-Z0-9-]+'
+#     methods: ['GET']
 
 add_trick:
     path: /add_trick

@@ -12,49 +12,50 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TrickController extends AbstractController
 {
     private $trickRepository;
-    private $em;
+    private $entityManager;
 
-    public function __construct(TrickRepository $trickRepository, EntityManagerInterface $em)
+    public function __construct(TrickRepository $trickRepository, EntityManagerInterface $entityManager)
     {
         $this->trickRepository = $trickRepository;
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     /**
-     *
+     * Home page
      */
+    #[Route('/', name: 'home', methods: ['GET'])]
     public function index(): Response
     {
         // Get tricks
-        // $tricks = $this->trickRepository->getTricks();
-
-        // if (empty($tricks)) {
-        //     throw $this->createNotFoundException('No trick added');
-        // }
         $tricks = [];
+        $tricks = $this->trickRepository->findAll();
+
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricks
         ]);
     }
 
     /**
-     *
+     * Get details of a trick
      */
+    #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET'])]
     public function getTrick(string $slug): Response
     {
         // Find the Trick by its slug
-        $trick = $this->trickRepository->findTrickBySlug($slug);
+        $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
 
         if (empty($trick)) {
-            throw $this->createNotFoundException('No post found for this slug');
+            $this->addFlash('danger', 'Cette figure n\'existe pas.');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('tricks/get.html.twig', [
-            'trick' => $trick[0]
+            'trick' => $trick
         ]);
     }
 
