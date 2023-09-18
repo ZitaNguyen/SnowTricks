@@ -33,7 +33,7 @@ class TrickController extends AbstractController
     {
         // Get tricks
         $tricks = [];
-        $tricks = $this->trickRepository->findAll();
+        $tricks = $this->trickRepository->findAllByDate();
 
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricks
@@ -60,8 +60,9 @@ class TrickController extends AbstractController
     }
 
     /**
-     *
+     * Add a new trick
      */
+    #[Route('/add_trick', name: 'add_trick', methods: ['GET', 'POST'])]
     public function addTrick(Request $request): Response
     {
         $trick = new Trick();
@@ -71,10 +72,16 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newTrick = $form->getData();
-            $newTrick->setUserID($this->getUser()->getId());
-            // $newTrick->setGroupID('1');
-            $this->em->persist($newTrick);
-            $this->em->flush();
+
+            // save user logged in
+            $newTrick->setUserID($this->getUser());
+
+            // save group
+            // $selectedGroup = $form->get('group_id')->getData();
+            // $newTrick->setGroupID($selectedGroup);
+
+            $this->entityManager->persist($newTrick);
+            $this->entityManager->flush();
 
             // Handle file uploads
             // $images = $form->get('images')->getData();

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Group;
 use App\Entity\Trick;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -25,14 +26,6 @@ class AddTrickFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $groups = $this->entityManager->getRepository(Group::class)->findAll();
-
-        $groupChoices = [
-            'Choissiez un catégorie' => ''
-        ];
-        foreach ($groups as $group)
-            $groupChoices[$group->getName()] = $group->getId();
-
         $builder
             ->add('name', TextType::class, [
                 'label' => false,
@@ -42,25 +35,21 @@ class AddTrickFormType extends AbstractType
                     'placeholder' => 'Nom du figure'
                 ]
             ])
-            ->add('slug', TextType::class, [
+            ->add('group_id', EntityType::class, [
+                'class' => Group::class,
+                'choice_label' => 'name',
                 'label' => false,
+                'placeholder' => 'Choisissez un catégorie',
                 'attr'  => [
                     'class' => 'form-control',
                     'style' => 'height: 4rem',
-                    'placeholder' => 'Slug'
-                ]
-            ])
-            ->add('group_id', ChoiceType::class, [
-                'label' => false,
-                'choices' => $groupChoices,
-                'choice_attr' => [
-                    'Choissiez un catégorie' => ['disabled' => 'disabled']
                 ],
-                'attr'  => [
-                    'class' => 'form-control text-muted',
-                    'style' => 'height: 4rem',
-                    'placeholder' => 'Description'
-                ]
+                // 'choice_attr' => function ($value) {
+                //     if ($value === null) {
+                //         return ['class' => 'text-muted'];
+                //     }
+                //     return [];
+                // }
             ])
             ->add('description', TextareaType::class, [
                 'label' => false,
@@ -70,24 +59,24 @@ class AddTrickFormType extends AbstractType
                     'placeholder' => 'Description'
                 ]
             ])
-            ->add('images', FileType::class, [
-                'label' => false,
-                'multiple' => true,
-                'mapped' => false, // Not mapped to Trick entity
-                'required' => false, // Allow empty uploads
-                'attr' => [
-                    'accept' => 'image/*',
-                    'class'  => 'form-control'
+            // ->add('images', FileType::class, [
+            //     'label' => false,
+            //     'multiple' => true,
+            //     'mapped' => false, // Not mapped to Trick entity
+            //     'required' => false, // Allow empty uploads
+            //     'attr' => [
+            //         'accept' => 'image/*',
+            //         'class'  => 'form-control'
 
-                ],
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => ['image/*'],
-                        'mimeTypesMessage' => 'Please upload a valid image file',
-                    ])
-                ],
-            ])
+            //     ],
+            //     'constraints' => [
+            //         new File([
+            //             'maxSize' => '1024k',
+            //             'mimeTypes' => ['image/*'],
+            //             'mimeTypesMessage' => 'Please upload a valid image file',
+            //         ])
+            //     ],
+            // ])
         ;
     }
 
