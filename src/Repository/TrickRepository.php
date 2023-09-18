@@ -33,13 +33,13 @@ class TrickRepository extends ServiceEntityRepository
        ;
    }
 
-//    public function findOneBySomeField($value): ?Trick
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findLastTrick()
+   {
+       return $this->createQueryBuilder('t')
+           ->orderBy('t.id', 'DESC')
+           ->setMaxResults(1)
+           ->getQuery()
+           ->getOneOrNullResult();
+   }
+
 }

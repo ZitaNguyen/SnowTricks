@@ -59,24 +59,24 @@ class AddTrickFormType extends AbstractType
                     'placeholder' => 'Description'
                 ]
             ])
-            // ->add('images', FileType::class, [
-            //     'label' => false,
-            //     'multiple' => true,
-            //     'mapped' => false, // Not mapped to Trick entity
-            //     'required' => false, // Allow empty uploads
-            //     'attr' => [
-            //         'accept' => 'image/*',
-            //         'class'  => 'form-control'
+            ->add('images', FileType::class, [
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false, // Not mapped to Trick entity
+                'required' => false, // Allow empty uploads
+                'attr' => [
+                    'accept' => 'image/*',
+                    'class'  => 'form-control'
 
-            //     ],
-            //     'constraints' => [
-            //         new File([
-            //             'maxSize' => '1024k',
-            //             'mimeTypes' => ['image/*'],
-            //             'mimeTypesMessage' => 'Please upload a valid image file',
-            //         ])
-            //     ],
-            // ])
+                ],
+                // 'constraints' => [
+                //     new File([
+                //         'maxSize' => '1024k',
+                //         'mimeTypes' => ['image/*'],
+                //         'mimeTypesMessage' => 'Please upload a valid image file',
+                //     ])
+                // ],
+            ])
         ;
     }
 
