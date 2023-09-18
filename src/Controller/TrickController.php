@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Trick;
-use App\Entity\User;
 use App\Form\AddTrickFormType;
+use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
-use Doctrine\ORM\EntityManager;
+use App\Service\ImageUpload;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,11 +17,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrickController extends AbstractController
 {
     private $trickRepository;
+    private $imageRepository;
     private $entityManager;
 
-    public function __construct(TrickRepository $trickRepository, EntityManagerInterface $entityManager)
+    public function __construct(
+        TrickRepository $trickRepository,
+        ImageRepository $imageRepository,
+        EntityManagerInterface $entityManager)
     {
         $this->trickRepository = $trickRepository;
+        $this->imageRepository = $imageRepository;
         $this->entityManager = $entityManager;
     }
 
@@ -33,7 +38,7 @@ class TrickController extends AbstractController
     {
         // Get tricks
         $tricks = [];
-        $tricks = $this->trickRepository->findAll();
+        $tricks = $this->trickRepository->findAllByDate();
 
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricks
@@ -48,21 +53,22 @@ class TrickController extends AbstractController
     {
         // Find the Trick by its slug
         $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
-
         if (empty($trick)) {
             $this->addFlash('danger', 'Cette figure n\'existe pas.');
             return $this->redirectToRoute('home');
         }
-
+        $images = $this->imageRepository->findAllByTrick(['trick_id' => $trick->getId()]);
         return $this->render('tricks/get.html.twig', [
-            'trick' => $trick
+            'trick' => $trick,
+            'images' => $images
         ]);
     }
 
     /**
-     *
+     * Add a new trick
      */
-    public function addTrick(Request $request): Response
+    #[Route('/add_trick', name: 'add_trick', methods: ['GET', 'POST'])]
+    public function addTrick(Request $request, ImageUpload $imageUploadService): Response
     {
         $trick = new Trick();
         $form = $this->createForm(AddTrickFormType::class, $trick);
@@ -71,20 +77,28 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newTrick = $form->getData();
-            $newTrick->setUserID($this->getUser()->getId());
-            // $newTrick->setGroupID('1');
-            $this->em->persist($newTrick);
-            $this->em->flush();
 
-            // Handle file uploads
-            // $images = $form->get('images')->getData();
+            // save user logged in
+            $newTrick->setUserID($this->getUser());
 
-            // foreach ($images as $imageFile) {
-            //     $image = new Image();
-            //     $image->setImage($imageFile);
-            //     $this->em->persist($image);
-            //     $this->em->flush();
-            // }
+            // save new trick into db
+            $this->entityManager->persist($newTrick);
+            $this->entityManager->flush();
+
+            // upload images
+            $files = $form->get('images')->getData();
+            if (!empty($files)) {
+                foreach ($files as $file) {
+                    $image = new Image;
+                    $image->setImage($imageUploadService->uploadImage($file));
+                    // get last trick and link with uploading image
+                    $lastTrick = $this->trickRepository->findLastTrick();
+                    $image->setTrickId($lastTrick);
+                    // save image into db
+                    $this->entityManager->persist($image);
+                    $this->entityManager->flush();
+                }
+            }
 
             $this->addFlash('success', 'Un nouveau figure été ajouté.');
 

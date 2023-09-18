@@ -25,26 +25,20 @@
         <!-- Post media-->
         <section class="mt-5">
             <div class="row row-cols-1 row-cols-md-4">
-                <div class="col mb-4">
+                {% if images is not empty %}
+                    {% for image in images %}
+                    <div class="col mb-4">
+                        <div class="card h-100">
+                            <img src={{ asset('uploads/image/' ~ image.image) }} class="card-img-top" alt="...">
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {# <div class="col mb-4">
                     <div class="card h-100">
                         <img src="https://dummyimage.com/600x400/343a40/6c757d" class="card-img-top" alt="...">
                     </div>
-                </div>
-                <div class="col mb-4">
-                    <div class="card h-100">
-                        <img src="https://dummyimage.com/600x400/343a40/6c757d" class="card-img-top" alt="...">
-                    </div>
-                </div>
-                <div class="col mb-4">
-                    <div class="card h-100">
-                        <img src="https://dummyimage.com/600x400/343a40/6c757d" class="card-img-top" alt="...">
-                    </div>
-                </div>
-                <div class="col mb-4">
-                    <div class="card h-100">
-                        <img src="https://dummyimage.com/600x400/343a40/6c757d" class="card-img-top" alt="...">
-                    </div>
-                </div>
+                </div> #}
             </div>
         </section>
         <!-- Post content-->

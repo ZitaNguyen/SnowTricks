@@ -4,14 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Service\ImageUpload;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class SecurityController extends AbstractController
 {
@@ -27,7 +26,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/register', name: 'registration', methods: ['GET', 'POST'])]
-    public function register(Request $request, SluggerInterface $slugger): Response
+    public function register(Request $request, ImageUpload $imageUploadService): Response
     {
         $user = new User;
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -38,26 +37,9 @@ class SecurityController extends AbstractController
 
             // upload image
             $image = $form->get('image')->getData();
-            if ($image) {
-                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
-
-                // Move the file to the directory where images are stored
-                try {
-                    $image->move(
-                        $this->getParameter('image_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    $this->addFlash('danger', 'Echec de télécharger votre image.');
-                }
-
-                $user->setImage($newFilename);
-            }
-
-            // save user
+            if ($image)
+                $user->setImage($imageUploadService->uploadImage($image));
+            // save user into db
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 

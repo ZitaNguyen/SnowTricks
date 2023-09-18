@@ -5,8 +5,11 @@ namespace App\Entity;
 use App\Repository\TrickRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[ORM\EntityListeners(['App\EntityListener\TrickListener'])]
+#[UniqueEntity('slug')]
 class Trick
 {
     #[ORM\Id]
@@ -17,7 +20,7 @@ class Trick
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -132,4 +135,5 @@ class Trick
 
         return $this;
     }
+
 }
