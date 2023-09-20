@@ -19,7 +19,7 @@ class Group
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'groupID', targetEntity: Trick::class)]
+    #[ORM\OneToMany(mappedBy: 'group', targetEntity: Trick::class)]
     private Collection $tricks;
 
     public function __construct()
@@ -56,7 +56,7 @@ class Group
     {
         if (!$this->tricks->contains($trick)) {
             $this->tricks->add($trick);
-            $trick->setGroupID($this);
+            $trick->setGroup($this);
         }
 
         return $this;
@@ -66,8 +66,8 @@ class Group
     {
         if ($this->tricks->removeElement($trick)) {
             // set the owning side to null (unless already changed)
-            if ($trick->getGroupID() === $this) {
-                $trick->setGroupID(null);
+            if ($trick->getGroup() === $this) {
+                $trick->setGroup(null);
             }
         }
 

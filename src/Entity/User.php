@@ -42,15 +42,15 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $password = 'test';
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = null;
+    private ?string $avatar = null;
 
     #[ORM\Column(type: 'json')]
     private array $roles = ['ROLE_USER'];
 
-    #[ORM\OneToMany(mappedBy: 'userID', targetEntity: Trick::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Trick::class, orphanRemoval: true)]
     private Collection $tricks;
 
-    #[ORM\OneToMany(mappedBy: 'userID', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
     public function __construct()
@@ -112,14 +112,14 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getAvatar(): ?string
     {
-        return $this->image;
+        return $this->avatar;
     }
 
-    public function setImage(?string $image): static
+    public function setAvatar(?string $avatar): static
     {
-        $this->image = $image;
+        $this->avatar = $avatar;
 
         return $this;
     }
@@ -152,7 +152,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         if (!$this->tricks->contains($trick)) {
             $this->tricks->add($trick);
-            $trick->setUserID($this);
+            $trick->setUser($this);
         }
 
         return $this;
@@ -162,8 +162,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         if ($this->tricks->removeElement($trick)) {
             // set the owning side to null (unless already changed)
-            if ($trick->getUserID() === $this) {
-                $trick->setUserID(null);
+            if ($trick->getUser() === $this) {
+                $trick->setUser(null);
             }
         }
 
@@ -171,7 +171,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     }
 
     /**
-     * @return Collection<int, Trick>
+     * @return Collection<int, Comment>
      */
     public function getComments(): Collection
     {
@@ -182,7 +182,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setUserID($this);
+            $comment->setUser($this);
         }
 
         return $this;
@@ -192,8 +192,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getUserID() === $this) {
-                $comment->setUserID(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 

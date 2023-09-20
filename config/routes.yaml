@@ -3,40 +3,4 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
-
-# home:
-#     path: /
-#     controller: App\Controller\TrickController::index
-
-# get_trick:
-#     path: /trick/{slug}
-#     controller: App\Controller\TrickController::getTrick
-#     requirements:
-#         slug: '[a-zA-Z0-9-]+'
-#     methods: ['GET']
-
-# add_trick:
-#     path: /add_trick
-#     controller: App\Controller\TrickController::addTrick
-
-# app_login:
-#     path: /login
-#     controller: App\Controller\SecurityController::login
-#     methods: ['GET', 'POST']
-
-# app_logout:
-#     path: /logout
-#     controller: App\Controller\SecurityController::logout
-#     methods: ['POST']
-
-# registration:
-#     path: /register
-#     controller: App\Controller\RegistrationController::index
-
-# forgot_password:
-#     path: /forgot_password
-#     controller: App\Controller\SecurityController::forgotPassword
-
-# reset_password:
-#     path: /reset_password/token
-#     controller: App\Controller\SecurityController::resetPassword
+    

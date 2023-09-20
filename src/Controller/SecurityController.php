@@ -35,8 +35,8 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
 
-            // upload image
-            $image = $form->get('image')->getData();
+            // upload avatar
+            $image = $form->get('avatar')->getData();
             if ($image)
                 $user->setImage($imageUploadService->uploadImage($image));
             // save user into db

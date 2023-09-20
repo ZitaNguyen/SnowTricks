@@ -37,17 +37,20 @@ class Trick
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $userID = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Group $groupID = null;
+    private ?Group $group = null;
 
-    #[ORM\OneToMany(mappedBy: 'trickID', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'trickID', targetEntity: Image::class)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true)]
     private Collection $images;
+
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true)]
+    private Collection $videos;
 
     public function __construct()
     {
@@ -55,6 +58,7 @@ class Trick
         $this->modifiedAt = new \DateTimeImmutable;
         $this->comments = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -122,26 +126,26 @@ class Trick
         return $this;
     }
 
-    public function getUserID(): ?User
+    public function getUser(): ?User
     {
-        return $this->userID;
+        return $this->user;
     }
 
-    public function setUserID(?User $userID): static
+    public function setUser(?User $user): static
     {
-        $this->userID = $userID;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getGroupID(): ?Group
+    public function getGroup(): ?Group
     {
-        return $this->groupID;
+        return $this->group;
     }
 
-    public function setGroupID(?Group $groupID): static
+    public function setGroup(?Group $group): static
     {
-        $this->groupID = $groupID;
+        $this->group = $group;
 
         return $this;
     }
@@ -158,7 +162,7 @@ class Trick
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setTrickID($this);
+            $comment->setTrick($this);
         }
 
         return $this;
@@ -168,8 +172,8 @@ class Trick
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getTrickID() === $this) {
-                $comment->setTrickID(null);
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
             }
         }
 
@@ -177,7 +181,7 @@ class Trick
     }
 
     /**
-     * @return Collection<int, Comment>
+     * @return Collection<int, Image>
      */
     public function getImages(): Collection
     {
@@ -188,7 +192,7 @@ class Trick
     {
         if (!$this->images->contains($image)) {
             $this->images->add($image);
-            $image->setTrickID($this);
+            $image->setTrick($this);
         }
 
         return $this;
@@ -198,8 +202,38 @@ class Trick
     {
         if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
-            if ($image->getTrickID() === $this) {
-                $image->setTrickID(null);
+            if ($image->getTrick() === $this) {
+                $image->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Video>
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): static
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos->add($video);
+            $video->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): static
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getTrick() === $this) {
+                $video->setTrick(null);
             }
         }
 

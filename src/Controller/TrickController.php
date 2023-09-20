@@ -44,7 +44,7 @@ class TrickController extends AbstractController
      * Get details of a trick
      */
     #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET'])]
-    public function getTrick(string $slug, Request $request): Response
+    public function getTrick(string $slug, Request $request, PaginatorInterface $paginator): Response
     {
         // Find the Trick by its slug
         $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
@@ -53,8 +53,9 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('home');
         }
         // Get images and comments
-        $images = $this->imageRepository->findAllByTrick(['trick_id' => $trick->getId()]);
-        $comments = $this->commentRepository->findAllByTrick(['trick_id' => $trick->getId()], $request->query->getInt('page', 1));
+        $images = $trick->getImages();
+        $comments = $trick->getComments();
+        $comments = $paginator->paginate($comments, $request->query->getInt('page', 1), 3);
 
         return $this->render('tricks/get.html.twig', [
             'trick' => $trick,
@@ -78,7 +79,7 @@ class TrickController extends AbstractController
             $newTrick = $form->getData();
 
             // save user logged in
-            $newTrick->setUserID($this->getUser());
+            $newTrick->setUser($this->getUser());
 
             // save new trick into db
             $this->entityManager->persist($newTrick);
@@ -92,7 +93,7 @@ class TrickController extends AbstractController
                     $image->setImage($imageUploadService->uploadImage($file));
                     // get last trick and link with uploading image
                     $lastTrick = $this->trickRepository->findLastTrick();
-                    $image->setTrickId($lastTrick);
+                    $image->setTrick($lastTrick);
                     // save image into db
                     $this->entityManager->persist($image);
                     $this->entityManager->flush();

@@ -35,7 +35,7 @@ class AddTrickFormType extends AbstractType
                     'placeholder' => 'Nom du figure'
                 ]
             ])
-            ->add('group_id', EntityType::class, [
+            ->add('group', EntityType::class, [
                 'class' => Group::class,
                 'choice_label' => 'name',
                 'label' => false,
