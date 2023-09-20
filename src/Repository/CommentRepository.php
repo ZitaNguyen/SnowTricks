@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Comment>
@@ -16,7 +18,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private PaginatorInterface $paginator
+    )
     {
         parent::__construct($registry, Comment::class);
     }
@@ -36,13 +41,17 @@ class CommentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findAllByTrick($value)
+    public function findAllByTrick($value, $page): PaginationInterface
     {
-        return $this->createQueryBuilder('c')
+        $data = $this->createQueryBuilder('c')
             ->andWhere('c.trickID = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getResult()
         ;
+
+        $comments = $this->paginator->paginate($data, $page, 3);
+
+        return $comments;
     }
 }

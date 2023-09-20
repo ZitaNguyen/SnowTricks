@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 class TrickController extends AbstractController
 {
@@ -29,11 +30,10 @@ class TrickController extends AbstractController
      * Home page
      */
     #[Route('/', name: 'home', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         // Get tricks
-        $tricks = [];
-        $tricks = $this->trickRepository->findAllByDate();
+        $tricks = $this->trickRepository->findAllByDate($request->query->getInt('page', 1));
 
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricks
@@ -44,7 +44,7 @@ class TrickController extends AbstractController
      * Get details of a trick
      */
     #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET'])]
-    public function getTrick(string $slug): Response
+    public function getTrick(string $slug, Request $request): Response
     {
         // Find the Trick by its slug
         $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
@@ -54,7 +54,7 @@ class TrickController extends AbstractController
         }
         // Get images and comments
         $images = $this->imageRepository->findAllByTrick(['trick_id' => $trick->getId()]);
-        $comments = $this->commentRepository->findAllByTrick(['trick_id' => $trick->getId()]);
+        $comments = $this->commentRepository->findAllByTrick(['trick_id' => $trick->getId()], $request->query->getInt('page', 1));
 
         return $this->render('tricks/get.html.twig', [
             'trick' => $trick,
