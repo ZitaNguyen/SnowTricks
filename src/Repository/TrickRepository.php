@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Trick>
@@ -16,21 +18,30 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TrickRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private PaginatorInterface $paginator
+    )
     {
         parent::__construct($registry, Trick::class);
     }
 
    /**
-    * @return Trick[] Returns an array of Trick objects
+    * Get tricks ordered by date
+    * @param int $page
+    * @return PaginationInterface
     */
-   public function findAllByDate(): array
+   public function findAllByDate(int $page): PaginationInterface
    {
-       return $this->createQueryBuilder('t')
+       $data = $this->createQueryBuilder('t')
             ->orderBy('t.modifiedAt', 'DESC')
             ->getQuery()
             ->getResult()
        ;
+
+       $tricks = $this->paginator->paginate($data, $page, 8);
+
+       return $tricks;
    }
 
    public function findLastTrick()

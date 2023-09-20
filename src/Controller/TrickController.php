@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 class TrickController extends AbstractController
 {
@@ -29,11 +30,10 @@ class TrickController extends AbstractController
      * Home page
      */
     #[Route('/', name: 'home', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         // Get tricks
-        $tricks = [];
-        $tricks = $this->trickRepository->findAllByDate();
+        $tricks = $this->trickRepository->findAllByDate($request->query->getInt('page', 1));
 
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricks
