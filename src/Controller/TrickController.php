@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Form\AddTrickFormType;
+use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Service\ImageUpload;
@@ -16,18 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TrickController extends AbstractController
 {
-    private $trickRepository;
-    private $imageRepository;
-    private $entityManager;
-
     public function __construct(
-        TrickRepository $trickRepository,
-        ImageRepository $imageRepository,
-        EntityManagerInterface $entityManager)
-    {
-        $this->trickRepository = $trickRepository;
-        $this->imageRepository = $imageRepository;
-        $this->entityManager = $entityManager;
+        private TrickRepository $trickRepository,
+        private ImageRepository $imageRepository,
+        private CommentRepository $commentRepository,
+        private EntityManagerInterface $entityManager
+    ){
     }
 
     /**
@@ -57,10 +52,14 @@ class TrickController extends AbstractController
             $this->addFlash('danger', 'Cette figure n\'existe pas.');
             return $this->redirectToRoute('home');
         }
+        // Get images and comments
         $images = $this->imageRepository->findAllByTrick(['trick_id' => $trick->getId()]);
+        $comments = $this->commentRepository->findAllByTrick(['trick_id' => $trick->getId()]);
+
         return $this->render('tricks/get.html.twig', [
             'trick' => $trick,
-            'images' => $images
+            'images' => $images,
+            'comments' => $comments
         ]);
     }
 

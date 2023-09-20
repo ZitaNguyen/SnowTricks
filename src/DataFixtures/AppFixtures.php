@@ -3,10 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Group;
-use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\User;
-use App\Entity\Video;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
@@ -62,28 +60,6 @@ class AppFixtures extends Fixture
             $tricks[] = $trick;
             $manager->persist($trick);
         }
-
-        // Images
-        // $images = [];
-        // for ($i = 0; $i < 10; $i++) {
-        //     $image = new Image();
-        //     $image->setImage($this->faker->image())
-        //         ->setTrickID($tricks[mt_rand(0, count($tricks) - 1)]);
-
-        //     $images[] = $image;
-        //     $manager->persist($image);
-        // }
-
-        // Videos
-        // $videos = [];
-        // for ($i = 0; $i < 10; $i++) {
-        //     $video = new Video();
-        //     $video->setVideo($this->faker->video())
-        //         ->setTrickID($tricks[mt_rand(0, count($tricks) - 1)]);
-
-        //     $videos[] = $video;
-        //     $manager->persist($video);
-        // }
 
         $manager->flush();
     }

@@ -16,16 +16,21 @@ class Comment
     #[ORM\Column(length: 255)]
     private ?string $comment = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $userID = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Trick $trick_id = null;
+    private ?Trick $trickID = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable;
+    }
 
     public function getId(): ?int
     {
@@ -44,38 +49,38 @@ class Comment
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUserID(): ?User
     {
-        return $this->user_id;
+        return $this->userID;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUserID(?User $userID): static
     {
-        $this->user_id = $user_id;
+        $this->userID = $userID;
 
         return $this;
     }
 
-    public function getTrickId(): ?Trick
+    public function getTrickID(): ?Trick
     {
-        return $this->trick_id;
+        return $this->trickID;
     }
 
-    public function setTrickId(?Trick $trick_id): static
+    public function setTrickID(?Trick $trickID): static
     {
-        $this->trick_id = $trick_id;
+        $this->trickID = $trickID;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
