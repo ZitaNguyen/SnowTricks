@@ -17,13 +17,6 @@ use Symfony\Component\Validator\Constraints\File;
 
 class AddTrickFormType extends AbstractType
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -35,7 +28,7 @@ class AddTrickFormType extends AbstractType
                     'placeholder' => 'Nom du figure'
                 ]
             ])
-            ->add('group_id', EntityType::class, [
+            ->add('group', EntityType::class, [
                 'class' => Group::class,
                 'choice_label' => 'name',
                 'label' => false,

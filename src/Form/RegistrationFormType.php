@@ -82,7 +82,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'invalid_message' => 'Les mots de passe ne correspondent pas.'
             ])
-            ->add('image', FileType::class, [
+            ->add('avatar', FileType::class, [
                 'label' => false,
                 'required' => false, // Allow empty uploads
                 'attr' => [

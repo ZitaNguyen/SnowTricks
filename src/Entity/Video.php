@@ -16,9 +16,9 @@ class Video
     #[ORM\Column(length: 255)]
     private ?string $video = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'videos')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Trick $trick_id = null;
+    private ?Trick $trick = null;
 
     public function getId(): ?int
     {
@@ -37,14 +37,14 @@ class Video
         return $this;
     }
 
-    public function getTrickId(): ?Trick
+    public function getTrick(): ?Trick
     {
-        return $this->trick_id;
+        return $this->trick;
     }
 
-    public function setTrickId(?Trick $trick_id): static
+    public function setTrick(?Trick $trick): static
     {
-        $this->trick_id = $trick_id;
+        $this->trick = $trick;
 
         return $this;
     }

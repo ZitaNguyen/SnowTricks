@@ -46,10 +46,10 @@
             <p class="fs-5 mb-4">{{ trick.description }}</p>
             <!-- Post categories-->
             <div class="text-center">
-                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.userId.username }}</a>
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.user.username }}</a>
                 <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getCreatedAt().format('d/m/Y') }}</a>
                 <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getModifiedAt().format('d/m/Y') }}</a>
-                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.groupId.name }}</a>
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.group.name }}</a>
             </div>
         </section>
     </article>
@@ -58,8 +58,8 @@
         <div class="card bg-light">
             <div class="card-body">
                 <!-- Comment form -->
-                <form class="mb-4 d-flex gap-3">
-                    <textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                <form class="mb-4 d-flex gap-3" action="{{ path('add_comment', { trickID: trick.getId() }) }}" method="POST">
+                    <textarea class="form-control" rows="3" name="comment" placeholder="Laissez votre commentaire..."></textarea>
                     <button class="btn btn-dark" type="submit">Envoyez un commentaire</button>
                 </form>
 
@@ -70,7 +70,8 @@
                         <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                         <div class="ms-3">
                             <div class="fw-bold">Commenter Name</div>
-                            {{ comment.comment }}
+                            <div>{{ comment.comment }}</div>
+                            <span class="text-muted"><small>{{ comment.getCreatedAt().format('d/m/Y') }}</small></span>
                         </div>
                     </div>
                     {% endfor %}

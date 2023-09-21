@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Group;
 use App\Entity\Trick;
 use App\Entity\User;
@@ -54,11 +55,24 @@ class AppFixtures extends Fixture
             $trick->setName($this->faker->word())
                 ->setSlug($this->faker->slug())
                 ->setDescription($this->faker->text(300))
-                ->setUserID($users[mt_rand(0, count($users) - 1)])
-                ->setGroupID($groups[mt_rand(0, count($groups) - 1)]);
+                ->setUser($users[mt_rand(0, count($users) - 1)])
+                ->setGroup($groups[mt_rand(0, count($groups) - 1)]);
 
             $tricks[] = $trick;
             $manager->persist($trick);
+        }
+
+        // Comments
+        foreach ($tricks as $trick) {
+            for ($i = 0; $i < 10; $i++) {
+                $comment = new Comment();
+                $comment->setComment($this->faker->text(100))
+                        ->setUser($users[mt_rand(0, count($users) - 1)])
+                        ->setTrick($trick);
+
+                $manager->persist($comment);
+                $trick->addComment($comment);
+            }
         }
 
         $manager->flush();
