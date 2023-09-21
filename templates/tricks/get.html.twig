@@ -34,11 +34,6 @@
                     </div>
                     {% endfor %}
                 {% endif %}
-                {# <div class="col mb-4">
-                    <div class="card h-100">
-                        <img src="https://dummyimage.com/600x400/343a40/6c757d" class="card-img-top" alt="...">
-                    </div>
-                </div> #}
             </div>
         </section>
         <!-- Post content-->
@@ -67,9 +62,13 @@
                 {% if comments is not empty %}
                     {% for comment in comments %}
                     <div class="d-flex my-3">
-                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                        {% if comment.user.avatar is not empty %}
+                        <div class="flex-shrink-0"><img class="rounded-circle" src="{{ asset('uploads/image/' ~ comment.user.avatar) }}" alt="avatar" /></div>
+                        {% else %}
+                        <div class="flex-shrink-0"><img class="rounded-circle" src="{{ asset('image/snowboard.png') }}" alt="default_avatar" style="width: 50px; height: 50px;" /></div>
+                        {% endif %}
                         <div class="ms-3">
-                            <div class="fw-bold">Commenter Name</div>
+                            <div class="fw-bold">{{ comment.user.username }}</div>
                             <div>{{ comment.comment }}</div>
                             <span class="text-muted"><small>{{ comment.getCreatedAt().format('d/m/Y') }}</small></span>
                         </div>
