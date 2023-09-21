@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\Comment;
 use App\Form\AddTrickFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
@@ -54,7 +55,10 @@ class TrickController extends AbstractController
         }
         // Get images and comments
         $images = $trick->getImages();
-        $comments = $trick->getComments();
+        $comments = $this->entityManager->getRepository(Comment::class)->findBy(
+            ['trick' => $trick],
+            ['createdAt' => 'DESC']
+        );
         $comments = $paginator->paginate($comments, $request->query->getInt('page', 1), 3);
 
         return $this->render('tricks/get.html.twig', [
