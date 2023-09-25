@@ -29,6 +29,15 @@
                     {{ form_row(addTrickForm.images) }}
                 </div>
 
+                <div id="video-urls-container" data-prototype="{{ form_widget(addTrickForm.videos.vars.prototype)|e }}">
+                    {# {{ form_errors(addTrickForm.videos) }} #}
+                    {% for videoUrl in addTrickForm.videos %}
+                        {{ form_widget(videoUrl) }}
+                    {% endfor %}
+                </div>
+
+                <button class="btn btn-primary mb-3" id="add-url" type="button">Ajouter Video URL</button>
+
                 <!-- Submit Button-->
                 <div class="d-grid">
                     <button class="btn btn-primary btn-lg" id="submitButton" type="submit">

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Comment;
+use App\Entity\Video;
 use App\Form\AddTrickFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
@@ -53,8 +54,9 @@ class TrickController extends AbstractController
             $this->addFlash('danger', 'Cette figure n\'existe pas.');
             return $this->redirectToRoute('home');
         }
-        // Get images and comments
+        // Get images, videos and comments
         $images = $trick->getImages();
+        $videos = $trick->getVideos();
         $comments = $this->entityManager->getRepository(Comment::class)->findBy(
             ['trick' => $trick],
             ['createdAt' => 'DESC']
@@ -64,6 +66,7 @@ class TrickController extends AbstractController
         return $this->render('tricks/get.html.twig', [
             'trick' => $trick,
             'images' => $images,
+            'videos' => $videos,
             'comments' => $comments
         ]);
     }
@@ -89,17 +92,33 @@ class TrickController extends AbstractController
             $this->entityManager->persist($newTrick);
             $this->entityManager->flush();
 
+             // get recently added trick
+             $lastTrick = $this->trickRepository->findLastTrick();
+
             // upload images
             $files = $form->get('images')->getData();
             if (!empty($files)) {
                 foreach ($files as $file) {
                     $image = new Image;
                     $image->setImage($imageUploadService->uploadImage($file));
-                    // get last trick and link with uploading image
-                    $lastTrick = $this->trickRepository->findLastTrick();
+                    // link last trick with uploading image
                     $image->setTrick($lastTrick);
                     // save image into db
                     $this->entityManager->persist($image);
+                    $this->entityManager->flush();
+                }
+            }
+
+            // upload videos
+            $urls = $form->get('videos')->getData();
+            if (!empty($urls)) {
+                foreach ($urls as $url) {
+                    $video = new Video;
+                    $video->setVideo($url);
+                    // link last trick with uploading url
+                    $video->setTrick($lastTrick);
+                    // save video into db
+                    $this->entityManager->persist($video);
                     $this->entityManager->flush();
                 }
             }

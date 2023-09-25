@@ -25,11 +25,22 @@
         <!-- Post media-->
         <section class="mt-5">
             <div class="row row-cols-1 row-cols-md-4">
+                {# images #}
                 {% if images is not empty %}
                     {% for image in images %}
                     <div class="col mb-4">
                         <div class="card h-100">
                             <img src={{ asset('uploads/image/' ~ image.image) }} class="card-img-top" alt="...">
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {# videos #}
+                {% if videos is not empty %}
+                    {% for video in videos %}
+                    <div class="col mb-4">
+                        <div class="card h-100">
+                            <iframe src="{{ video.video }}" frameborder="0" allowfullscreen></iframe>
                         </div>
                     </div>
                     {% endfor %}

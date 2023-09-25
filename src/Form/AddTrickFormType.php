@@ -4,16 +4,15 @@ namespace App\Form;
 
 use App\Entity\Group;
 use App\Entity\Trick;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
 
 class AddTrickFormType extends AbstractType
 {
@@ -59,7 +58,8 @@ class AddTrickFormType extends AbstractType
                 'required' => false, // Allow empty uploads
                 'attr' => [
                     'accept' => 'image/*',
-                    'class'  => 'form-control'
+                    'class'  => 'form-control',
+                    'placeholder' => 'photos'
 
                 ],
                 // 'constraints' => [
@@ -69,7 +69,18 @@ class AddTrickFormType extends AbstractType
                 //         'mimeTypesMessage' => 'Please upload a valid image file',
                 //     ])
                 // ],
-            ])
+                ])
+                ->add('videos', CollectionType::class, [
+                    'label' => false,
+                    'entry_type' => UrlType::class,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => true,
+                    'mapped' => false,
+                    'attr' => [
+                        'class' => 'video-urls'
+                    ]
+                ])
         ;
     }
 
