@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Entity\Video;
 use App\Form\AddTrickFormType;
+use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
@@ -45,7 +46,7 @@ class TrickController extends AbstractController
     /**
      * Get details of a trick
      */
-    #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET'])]
+    #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET','POST'])]
     public function getTrick(string $slug, Request $request, PaginatorInterface $paginator): Response
     {
         // Find the Trick by its slug
@@ -61,13 +62,32 @@ class TrickController extends AbstractController
             ['trick' => $trick],
             ['createdAt' => 'DESC']
         );
-        $comments = $paginator->paginate($comments, $request->query->getInt('page', 1), 3);
+        $comments = $paginator->paginate($comments, $request->query->getInt('page', 1), 10);
+
+        // Comment form
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentFormType::class, $comment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment = $commentForm->getData();
+            // set user
+            $comment->setUser($this->getUser());
+            // set trick
+            $comment->setTrick($trick);
+
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('get_trick', ['slug' => $slug]);
+        }
 
         return $this->render('tricks/get.html.twig', [
             'trick' => $trick,
             'images' => $images,
             'videos' => $videos,
-            'comments' => $comments
+            'comments' => $comments,
+            'commentForm' => $commentForm
         ]);
     }
 
