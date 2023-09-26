@@ -64,10 +64,16 @@
         <div class="card bg-light">
             <div class="card-body">
                 <!-- Comment form -->
-                <form class="mb-4 d-flex gap-3" action="{{ path('add_comment', { trickID: trick.getId() }) }}" method="POST">
-                    <textarea class="form-control" rows="3" name="comment" placeholder="Laissez votre commentaire..."></textarea>
-                    <button class="btn btn-dark" type="submit">Envoyez un commentaire</button>
-                </form>
+                {{ form_start(commentForm) }}
+                <div class="row">
+                    <div class="col-md-10">
+                        {{ form_row(commentForm.comment) }}
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-dark w-100 h-100" type="submit">Envoyez</button>
+                    </div>
+                </div>
+                {{ form_end(commentForm) }}
 
                 <!-- comments -->
                 {% if comments is not empty %}
