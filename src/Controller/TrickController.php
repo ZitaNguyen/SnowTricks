@@ -44,6 +44,20 @@ class TrickController extends AbstractController
     }
 
     /**
+     * Tricks page
+     */
+    #[Route('/tricks', name: 'all_tricks', methods: ['GET'])]
+    public function getTricks(Request $request): Response
+    {
+        // Get tricks
+        $tricks = $this->trickRepository->findAllByDate($request->query->getInt('page', 1));
+
+        return $this->render('tricks/getAll.html.twig', [
+            'tricks' => $tricks
+        ]);
+    }
+
+    /**
      * Get details of a trick
      */
     #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET','POST'])]
