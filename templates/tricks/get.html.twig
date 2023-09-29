@@ -10,7 +10,11 @@
     <!-- Post content-->
     <article>
         <!-- Post header-->
-        <header class="bg-image py-5 position-relative" style="background-image: url({{ asset('image/snowtricks.jpg') }}); background-size: cover; height: 500px;">
+        {% if trick.getImages() is not empty%}
+            <header class="bg-image py-5 position-relative" style="background-image: url({{ asset('uploads/image/' ~ trick.getImages()[0].image) }}); background-size: cover; height: 500px;">
+        {% else %}
+            <header class="bg-image py-5 position-relative" style="background-image: url({{ asset('image/snowtricks.jpg') }}); background-size: cover; height: 500px;">
+        {% endif %}
             <!-- Modify and Delete buttons -->
             <div class="buttons position-absolute top-0 end-0 mt-3 me-3">
                 <a class="btn btn-light" href="#" role="button"><i class="bi bi-pencil-fill"></i></a>
@@ -18,30 +22,26 @@
             </div>
             <div class="d-flex align-items-center justify-content-center h-100">
                 <div class="text-center">
-                    <h1 class="display-5 fw-bolder text-white mb-2">{{ trick.name }}</h1>
+                    <h1 class="display-5 fw-bolder text-dark bg-light p-3">{{ trick.name }}</h1>
                 </div>
             </div>
         </header>
         <!-- Post media-->
         <section class="mt-5">
-            <div class="row row-cols-1 row-cols-md-4">
+            <div class="row">
                 {# images #}
                 {% if images is not empty %}
                     {% for image in images %}
-                    <div class="col mb-4">
-                        <div class="card h-100">
-                            <img src={{ asset('uploads/image/' ~ image.image) }} class="card-img-top" alt="...">
-                        </div>
+                    <div class="col-md-3 mb-4 media-container">
+                        <img src={{ asset('uploads/image/' ~ image.image) }} class="media" alt="...">
                     </div>
                     {% endfor %}
                 {% endif %}
                 {# videos #}
                 {% if videos is not empty %}
                     {% for video in videos %}
-                    <div class="col mb-4">
-                        <div class="card h-100">
-                            <iframe src="{{ video.video }}" class="card-img-top" frameborder="0" allowfullscreen></iframe>
-                        </div>
+                    <div class="col-md-3 mb-4 media-container">
+                        <iframe src="{{ video.video }}" class="media" frameborder="0" allowfullscreen></iframe>
                     </div>
                     {% endfor %}
                 {% endif %}
@@ -96,6 +96,8 @@
                      <div class="d-flex justify-content-center mt-5">
                         {{ knp_pagination_render(comments) }}
                     </div>
+                {% elseif not app.user %}
+                    <p>Connectez-vous pour ajouter le première commentaire.</p>
                 {% endif %}
             </div>
         </div>
