@@ -40,7 +40,7 @@
                     {% for video in videos %}
                     <div class="col mb-4">
                         <div class="card h-100">
-                            <iframe src="{{ video.video }}" frameborder="0" allowfullscreen></iframe>
+                            <iframe src="{{ video.video }}" class="card-img-top" frameborder="0" allowfullscreen></iframe>
                         </div>
                     </div>
                     {% endfor %}
@@ -63,17 +63,19 @@
     <section>
         <div class="card bg-light">
             <div class="card-body">
-                <!-- Comment form -->
-                {{ form_start(commentForm) }}
-                <div class="row">
-                    <div class="col-md-10">
-                        {{ form_row(commentForm.comment) }}
+                {% if app.user %}
+                    <!-- Comment form -->
+                    {{ form_start(commentForm) }}
+                    <div class="row">
+                        <div class="col-md-10">
+                            {{ form_row(commentForm.comment) }}
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-dark w-100 h-100" type="submit">Envoyez</button>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-dark w-100 h-100" type="submit">Envoyez</button>
-                    </div>
-                </div>
-                {{ form_end(commentForm) }}
+                    {{ form_end(commentForm) }}
+                {% endif %}
 
                 <!-- comments -->
                 {% if comments is not empty %}
