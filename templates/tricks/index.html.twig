@@ -28,7 +28,7 @@
                 {% else %}
                     <img class="card-img-top" src="{{ asset('image/snowboard.png') }}" alt="trick image default" />
                 {% endif %}
-                <div class="card-footer p-4 bg-light border-top-0">
+                <div class="card-footer p-4 bg-light border-top-0 h-auto mt-auto">
                     <div class="row">
                         <div class="col-md-7">
                             <a href="{{ path('get_trick', { slug: trick.slug }) }}">{{ trick.name }}</a>

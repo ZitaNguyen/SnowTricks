@@ -10852,7 +10852,13 @@ a {
   color: inherit;
 }
 
-.card-img-top {
-  height: 400px !important;
-  object-fit: cover;
+.media-container {
+  max-width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+.media {
+  width: 100%;
+  height: 75%;
 }
