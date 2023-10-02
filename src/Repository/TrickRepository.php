@@ -39,7 +39,7 @@ class TrickRepository extends ServiceEntityRepository
             ->getResult()
        ;
 
-       $tricks = $this->paginator->paginate($data, $page, 8);
+       $tricks = $this->paginator->paginate($data, $page, 12);
 
        return $tricks;
    }
