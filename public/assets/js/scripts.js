@@ -4,6 +4,9 @@
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-modern-business/blob/master/LICENSE)
 */
 
+/**
+ * Add form field for more video urls
+ */
 var $videoUrlsContainer = $('#video-urls-container');
 var $addVideoUrlButton = $('#add-url');
 var prototype = $videoUrlsContainer.data('prototype');
@@ -27,3 +30,35 @@ $addVideoUrlButton.on('click', function () {
 $videoUrlsContainer.on('click', '.remove-url', function () {
     $(this).closest('.form-group').remove();
 });
+
+/**
+ * Icons scroll-up, scroll-down
+ */
+const $scrollUpIcon = $("#scroll-up-icon");
+const $scrollDownIcon = $("#scroll-down-icon");
+
+// Show the scroll-down button initially
+$scrollDownIcon.show();
+
+$(window).on("scroll", function() {
+    if ($(window).scrollTop() > 100) {
+        $scrollUpIcon.show();
+    } else {
+        $scrollUpIcon.hide();
+    }
+
+    if ($(window).height() + $(window).scrollTop() >= $(document).height()) {
+        $scrollDownIcon.hide();
+    } else {
+        $scrollDownIcon.show();
+    }
+});
+
+$scrollUpIcon.on("click", function () {
+    $("html, body").animate({ scrollTop: 0 }, "fast");
+});
+
+$scrollDownIcon.on("click", function () {
+    $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+});
+
