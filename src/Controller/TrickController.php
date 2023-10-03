@@ -7,8 +7,10 @@ use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Entity\Video;
 use App\Form\AddTrickFormType;
+use App\Form\ModifyTrickFormType;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
+use App\Repository\GroupRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Service\ImageUpload;
@@ -23,6 +25,7 @@ class TrickController extends AbstractController
 {
     public function __construct(
         private TrickRepository $trickRepository,
+        private GroupRepository $groupRepository,
         private ImageRepository $imageRepository,
         private CommentRepository $commentRepository,
         private EntityManagerInterface $entityManager
@@ -164,6 +167,32 @@ class TrickController extends AbstractController
 
         return $this->render('tricks/add.html.twig', [
             'addTrickForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Modify a trick
+     */
+    #[Route('/modify_trick/{slug}', name: 'modify_trick', methods: ['GET', 'POST'])]
+    public function modifyTrick(string $slug, Request $request): Response
+    {
+        // Get trick info
+        $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
+        $form = $this->createForm(ModifyTrickFormType::class, $trick);
+
+        // Get images, and videos
+        $images = $trick->getImages();
+        $videos = $trick->getVideos();
+
+        // Get groups
+        $groups = $this->groupRepository->findAll();
+
+        return $this->render('tricks/update.html.twig', [
+            'trick' => $trick,
+            'images' => $images,
+            'videos' => $videos,
+            'groups' => $groups,
+            'modifyTrickForm' => $form->createView()
         ]);
     }
 
