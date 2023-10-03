@@ -10,10 +10,10 @@ use App\Form\AddTrickFormType;
 use App\Form\ModifyTrickFormType;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
-use App\Repository\GroupRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Service\ImageUpload;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,6 @@ class TrickController extends AbstractController
 {
     public function __construct(
         private TrickRepository $trickRepository,
-        private GroupRepository $groupRepository,
         private ImageRepository $imageRepository,
         private CommentRepository $commentRepository,
         private EntityManagerInterface $entityManager
@@ -184,14 +183,21 @@ class TrickController extends AbstractController
         $images = $trick->getImages();
         $videos = $trick->getVideos();
 
-        // Get groups
-        $groups = $this->groupRepository->findAll();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $updateTrick = $form->getData();
+            $updateTrick->setModifiedAt(new DateTimeImmutable());
+            $this->entityManager->persist($updateTrick);
+            $this->entityManager->flush();
+            $this->addFlash('succes', 'Le figure été modifié.');
+            return $this->redirectToRoute('get_trick', ['slug' => $slug]);
+        }
 
         return $this->render('tricks/update.html.twig', [
             'trick' => $trick,
             'images' => $images,
             'videos' => $videos,
-            'groups' => $groups,
             'modifyTrickForm' => $form->createView()
         ]);
     }

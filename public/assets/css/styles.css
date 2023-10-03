@@ -10852,6 +10852,7 @@ a {
   color: inherit;
 }
 
+/* Images and videos in a post detail page */
 .media-container {
   max-width: 100%;
   height: auto;
@@ -10863,6 +10864,7 @@ a {
   height: 75%;
 }
 
+/* Arrows to move up and down a page */
 #scroll-icons {
   position: fixed;
   bottom: 55px;
@@ -10880,4 +10882,13 @@ a {
   font-size: 48px;
   color: #007BFF;
   /* cursor: pointer; */
+}
+
+/* Icons update and delete */
+.bi-pencil-fill:hover {
+  color: #0d6efd;
+}
+
+.bi-trash-fill:hover {
+  color: #dc3545;
 }
