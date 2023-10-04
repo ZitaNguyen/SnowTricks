@@ -38,10 +38,9 @@
                         <img src={{ asset('uploads/image/' ~ image.image) }} class="media" alt="...">
                         <!-- Modify and Delete buttons -->
                         <div class="d-flex justify-content-center">
-                            <a class="btn btn-light" href="#" role="button"><i class="bi bi-pencil-fill"></i></a>
-                            <a class="btn btn-light ms-2" href="#" role="button"><i class="bi bi-trash-fill"></i></a>
-                            {# <a class="btn btn-light" href="{{ path('modify_image', { image_id: image.id }) }}" role="button"><i class="bi bi-pencil-fill"></i></a>
-                            <a class="btn btn-light ms-2" href="{{ path('delete_image', { image_id: image.id }) }}" role="button"><i class="bi bi-trash-fill"></i></a> #}
+                            <a class="btn btn-light" href="" role="button"><i class="bi bi-pencil-fill"></i></a>
+                            <a class="btn btn-light ms-2 delete-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-trash-fill"></i></a>
+                            {# <a class="btn btn-light" href="{{ path('modify_image', { image_id: image.id }) }}" role="button"><i class="bi bi-pencil-fill"></i></a> #}
                         </div>
                     </div>
                     {% endfor %}
@@ -70,35 +69,26 @@
                 <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getCreatedAt().format('d/m/Y') }}</a>
                 <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getModifiedAt().format('d/m/Y') }}</a>
             </div>
+            {{ form_start(modifyTrickForm) }}
             <div class="form-group mt-5">
-                {# <textarea class="fs-5 mb-4 form-control">{{ trick.description }}</textarea> #}
                 {{ form_widget(modifyTrickForm.description) }}
             </div>
             <div class="row mt-5">
                 <div class="col-md-7 form-group">
                     {{ form_widget(modifyTrickForm.group) }}
-                    {# <select class="form-control">
-                        <option value="{{ trick.group.id }}">{{ trick.group.name }}</option>
-                        {% for group in groups %}
-                        <option value="{{ group.id }}">{{ group.name }}</option>
-                        {% endfor %}
-                    </select> #}
                 </div>
                 <div class="col-md-5">
                     <div class="d-flex justify-content-end">
                         <button class="btn btn-primary me-3" id="submitButton" type="submit">
                             Enregistrer
                         </button>
-                        <button class="btn btn-danger" id="submitButton" type="submit">
+                        <button class="btn btn-danger" id="deleteButton" type="submit">
                             Supprimer
                         </button>
-                        {# <a class="btn btn-light" href="#" role="button"><i class="bi bi-pencil-fill"></i></a>
-                        <a class="btn btn-light ms-2" href="#" role="button"><i class="bi bi-trash-fill"></i></a> #}
-                        {# <a class="btn btn-light" href="{{ path('modify_image', { image_id: image.id }) }}" role="button"><i class="bi bi-pencil-fill"></i></a>
-                        <a class="btn btn-light ms-2" href="{{ path('delete_image', { image_id: image.id }) }}" role="button"><i class="bi bi-trash-fill"></i></a> #}
                     </div>
                 </div>
             </div>
+            {{ form_end(modifyTrickForm) }}
         </section>
     </article>
 </div>
