@@ -15,18 +15,11 @@
         {% else %}
             <header class="bg-image py-5 position-relative" style="background-image: url({{ asset('image/snowtricks.jpg') }}); background-size: cover; height: 500px;">
         {% endif %}
-            <!-- Modify and Delete buttons -->
-            <div class="buttons position-absolute top-0 end-0 mt-3 me-3">
-                <a class="btn btn-light" href="#" role="button"><i class="bi bi-pencil-fill"></i></a>
-                <a class="btn btn-light ms-2" href="#" role="button"><i class="bi bi-trash-fill"></i></a>
-                {# <a class="btn btn-light" href="{{ path('modify_image', { image_id: trick.getImages()[0].id }) }}" role="button"><i class="bi bi-pencil-fill"></i></a>
-                <a class="btn btn-light ms-2" href="{{ path('delete_image', { image_id: trick.getImages()[0].id }) }}" role="button"><i class="bi bi-trash-fill"></i></a> #}
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <div class="text-center">
+                <h1 class="display-5 fw-bolder text-dark bg-light p-3">{{ trick.name }}</h1>
             </div>
-            <div class="d-flex align-items-center justify-content-center h-100">
-                <div class="text-center">
-                    <h1 class="display-5 fw-bolder text-dark bg-light p-3">{{ trick.name }}</h1>
-                </div>
-            </div>
+        </div>
         </header>
         <!-- Post media-->
         <section class="mt-5">
@@ -53,9 +46,8 @@
                         <!-- Modify and Delete buttons -->
                         <div class="d-flex justify-content-center">
                             <a class="btn btn-light" href="#" role="button"><i class="bi bi-pencil-fill"></i></a>
-                            <a class="btn btn-light ms-2" href="#" role="button"><i class="bi bi-trash-fill"></i></a>
-                            {# <a class="btn btn-light" href="{{ path('modify_video', { video_id: video.id }) }}" role="button"><i class="bi bi-pencil-fill"></i></a>
-                            <a class="btn btn-light ms-2" href="{{ path('delete_video', { video_id: video.id }) }}" role="button"><i class="bi bi-trash-fill"></i></a> #}
+                            <a class="btn btn-light ms-2 delete-video-button" data-video-id="{{ video.id }}" role="button"><i class="bi bi-trash-fill"></i></a>
+                            {# <a class="btn btn-light" href="{{ path('modify_video', { video_id: video.id }) }}" role="button"><i class="bi bi-pencil-fill"></i></a>#}
                         </div>
                     </div>
                     {% endfor %}

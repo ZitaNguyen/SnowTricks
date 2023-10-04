@@ -1,14 +1,14 @@
 $(function() {
-    $(".delete-image-button").on("click", function() {
-        // Get the imageID from the data attribute
-        var imageID = $(this).data('image-id');
+    $(".delete-video-button").on("click", function() {
+        // Get the videoID from the data attribute
+        var videoID = $(this).data('video-id');
 
-        // Send an AJAX request to delete the image
+        // Send an AJAX request to delete the video
         $.ajax({
-            url: '/delete_image/' + imageID, // Replace with your Symfony route
+            url: '/delete_video/' + videoID,
             method: 'DELETE',
             success: function(response) {
-                // Remove the image container from the front end
+                // Remove the video container from the front end
                 $(this).closest('.media-container').remove();
                 console.log(response);
             }.bind(this), // Use bind to retain the button context
