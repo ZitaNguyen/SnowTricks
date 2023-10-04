@@ -190,7 +190,7 @@ class TrickController extends AbstractController
             $updateTrick->setModifiedAt(new DateTimeImmutable());
             $this->entityManager->persist($updateTrick);
             $this->entityManager->flush();
-            $this->addFlash('succes', 'Le figure été modifié.');
+            $this->addFlash('success', 'Le figure été modifié.');
             return $this->redirectToRoute('get_trick', ['slug' => $slug]);
         }
 
