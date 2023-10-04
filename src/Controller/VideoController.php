@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class VideoController extends AbstractController
 {
@@ -20,6 +21,7 @@ class VideoController extends AbstractController
      * Delete a video
      */
     #[Route('/delete_video/{videoID}', name: 'delete_video', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
     public function deleteVideo(int $videoID)
     {
         try {

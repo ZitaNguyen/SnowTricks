@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 class TrickController extends AbstractController
 {
@@ -62,7 +64,7 @@ class TrickController extends AbstractController
     /**
      * Get details of a trick
      */
-    #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET','POST'])]
+    #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET', 'POST'])]
     public function getTrick(string $slug, Request $request, PaginatorInterface $paginator): Response
     {
         // Find the Trick by its slug
@@ -111,6 +113,7 @@ class TrickController extends AbstractController
      * Add a new trick
      */
     #[Route('/add_trick', name: 'add_trick', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function addTrick(Request $request, ImageUpload $imageUploadService): Response
     {
         $trick = new Trick();
@@ -173,6 +176,7 @@ class TrickController extends AbstractController
      * Modify a trick
      */
     #[Route('/modify_trick/{slug}', name: 'modify_trick', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function modifyTrick(string $slug, Request $request): Response
     {
         // Get trick info

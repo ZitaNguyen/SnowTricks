@@ -15,6 +15,7 @@
         {% else %}
             <header class="bg-image py-5 position-relative" style="background-image: url({{ asset('image/snowtricks.jpg') }}); background-size: cover; height: 500px;">
         {% endif %}
+        {% if app.user == trick.getUser() %}
             <!-- Modify and Delete buttons -->
             <div class="buttons position-absolute top-0 end-0 mt-3 me-3">
                 <a class="btn btn-light" href="{{ path('modify_trick', { slug: trick.slug }) }}" role="button"><i class="bi bi-pencil-fill"></i></a>
@@ -25,6 +26,7 @@
                     <h1 class="display-5 fw-bolder text-dark bg-light p-3">{{ trick.name }}</h1>
                 </div>
             </div>
+        {% endif %}
         </header>
         <!-- Post media-->
         <section class="mt-5">

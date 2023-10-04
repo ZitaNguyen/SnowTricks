@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ImageController extends AbstractController
 {
@@ -20,6 +21,7 @@ class ImageController extends AbstractController
      * Delete an image
      */
     #[Route('/delete_image/{imageID}', name: 'delete_image', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
     public function deleteImage(int $imageID)
     {
         try {
