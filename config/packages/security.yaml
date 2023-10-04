@@ -38,6 +38,8 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        # Restrict POST requests to ROLE_USER
+        - { path: ^/trick/.*$, roles: ROLE_USER, methods: [POST] }
 
 when@test:
     security:
