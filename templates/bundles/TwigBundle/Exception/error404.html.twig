@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Erreur 404
+{% endblock %}
+
+{% block body %}
+<div class="ms-5 mt-5 row">
+    <div class="col-md-7">
+        <h1> Nous ne trouvons pas la page recherchée </h1>
+        <p>Vérifiez que l'URL saisie ne contient pas d'erreur.</p>
+        <a href="{{ path('home') }}" type="button" class="btn btn-primary">Allez à la page d'accueil</a>
+    </div>
+    <div class="col-md-5 d-md-block d-none">
+        <img src="{{ asset('image/404.png') }}" />
+    </div>
+</div>
+{% endblock %}
