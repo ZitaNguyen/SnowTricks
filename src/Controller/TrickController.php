@@ -206,4 +206,25 @@ class TrickController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete a trick
+     */
+    #[Route('/delete-trick/{slug}', name: 'delete-trick', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
+    public function deleteTrick(string $slug): Response
+    {
+        try {
+            // Find trick
+            $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
+            // Delete trick
+            $this->entityManager->remove($trick);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            $this->addFlash('warning', $e);
+        }
+
+        $this->addFlash('success', 'Le figure été supprimé.');
+        return $this->redirectToRoute('home');
+    }
+
 }
