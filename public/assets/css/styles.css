@@ -10892,3 +10892,7 @@ a {
 .bi-trash-fill:hover {
   color: #dc3545;
 }
+
+.card-footer-height {
+  height: 50px;
+}

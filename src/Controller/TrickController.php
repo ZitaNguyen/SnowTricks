@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
@@ -204,6 +205,29 @@ class TrickController extends AbstractController
             'videos' => $videos,
             'modifyTrickForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * Delete a trick
+     */
+    #[Route('/delete-trick/{slug}', name: 'delete-trick', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
+    public function deleteTrick(string $slug): JsonResponse
+    {
+        try {
+            // Find trick
+            $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
+            // Delete trick
+            $this->entityManager->remove($trick);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            $this->addFlash('warning', $e);
+            return new JsonResponse(['redirect' => $this->generateUrl('home')]);
+        }
+
+        $this->addFlash('success', 'Le figure été supprimé.');
+        // Return a JSON response with the redirect URL
+        return new JsonResponse(['redirect' => $this->generateUrl('home')]);
     }
 
 }
