@@ -8,7 +8,8 @@ $(function() {
             url: '/delete-trick/' + slug,
             method: 'DELETE',
             success: function(response) {
-                console.log(response);
+                // Redirect to the home page
+                window.location.href = response.redirect;
             },
             error: function(error) {
                 // Handle errors and display error messages

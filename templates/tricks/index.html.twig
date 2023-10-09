@@ -33,11 +33,17 @@
                 {% else %}
                     <img class="card-img-top" src="{{ asset('image/snowboard.png') }}" alt="trick image default" />
                 {% endif %}
-                <div class="card-footer p-4 bg-light border-top-0 h-auto mt-auto">
+                <div class="card-footer bg-light border-top-0 mt-2">
                     {% if is_granted('ROLE_USER') and app.user == trick.getUser() %}
-                        <div class="row">
+                        <div class="row card-footer-height">
                             <div class="col-md-7 my-auto">
-                                <a href="{{ path('get_trick', { slug: trick.slug }) }}">{{ trick.name }}</a>
+                                <a href="{{ path('get_trick', { slug: trick.slug }) }}">
+                                {% if trick.name|length > 15 %}
+                                    {{ trick.name|slice(0, 15)|capitalize }}...
+                                {% else %}
+                                    {{ trick.name|capitalize }}
+                                {% endif %}
+                                </a>
                             </div>
                              <!-- Modify and Delete Trick buttons -->
                             <div class="col-md-5 d-flex align-items-center justify-content-around">
@@ -46,7 +52,15 @@
                             </div>
                         </div>
                     {% else %}
-                        <a href="{{ path('get_trick', { slug: trick.slug }) }}">{{ trick.name }}</a>
+                        <div class="row card-footer-height">
+                            <a href="{{ path('get_trick', { slug: trick.slug }) }}" class="my-auto">
+                                {% if trick.name|length > 30 %}
+                                    {{ trick.name|slice(0, 30)|capitalize }}...
+                                {% else %}
+                                    {{ trick.name|capitalize }}
+                                {% endif %}
+                            </a>
+                        </div>
                     {% endif %}
                 </div>
             </div>
