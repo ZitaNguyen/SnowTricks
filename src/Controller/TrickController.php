@@ -51,7 +51,7 @@ class TrickController extends AbstractController
     /**
      * Tricks page
      */
-    #[Route('/tricks', name: 'all_tricks', methods: ['GET'])]
+    #[Route('/tricks', name: 'all-tricks', methods: ['GET'])]
     public function getTricks(Request $request): Response
     {
         // Get tricks
@@ -65,7 +65,7 @@ class TrickController extends AbstractController
     /**
      * Get details of a trick
      */
-    #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET', 'POST'])]
+    #[Route('/trick/{slug}', name: 'get-trick', methods: ['GET', 'POST'])]
     public function getTrick(string $slug, Request $request, PaginatorInterface $paginator): Response
     {
         // Find the Trick by its slug
@@ -98,7 +98,7 @@ class TrickController extends AbstractController
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('get_trick', ['slug' => $slug]);
+            return $this->redirectToRoute('get-trick', ['slug' => $slug]);
         }
 
         return $this->render('tricks/get.html.twig', [
@@ -113,7 +113,7 @@ class TrickController extends AbstractController
     /**
      * Add a new trick
      */
-    #[Route('/add_trick', name: 'add_trick', methods: ['GET', 'POST'])]
+    #[Route('/add-trick', name: 'add-trick', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function addTrick(Request $request, ImageUpload $imageUploadService): Response
     {
@@ -176,7 +176,7 @@ class TrickController extends AbstractController
     /**
      * Modify a trick
      */
-    #[Route('/modify_trick/{slug}', name: 'modify_trick', methods: ['GET', 'POST'])]
+    #[Route('/modify-trick/{slug}', name: 'modify-trick', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function modifyTrick(string $slug, Request $request): Response
     {
@@ -196,7 +196,7 @@ class TrickController extends AbstractController
             $this->entityManager->persist($updateTrick);
             $this->entityManager->flush();
             $this->addFlash('success', 'Le figure été modifié.');
-            return $this->redirectToRoute('get_trick', ['slug' => $slug]);
+            return $this->redirectToRoute('get-trick', ['slug' => $slug]);
         }
 
         return $this->render('tricks/update.html.twig', [

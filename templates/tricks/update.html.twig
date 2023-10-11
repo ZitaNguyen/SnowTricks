@@ -9,6 +9,7 @@
 <div class="row gx-5">
     <!-- Post content-->
     <article>
+    {{ form_start(modifyTrickForm) }}
         <!-- Post header-->
         {% if trick.getImages() is not empty%}
             <header class="bg-image py-5 position-relative" style="background-image: url({{ asset('uploads/image/' ~ trick.getImages()[0].image) }}); background-size: cover; height: 500px;">
@@ -17,7 +18,7 @@
         {% endif %}
         <div class="d-flex align-items-center justify-content-center h-100">
             <div class="text-center">
-                <h1 class="display-5 fw-bolder text-dark bg-light p-3">{{ trick.name }}</h1>
+                <h1 class="display-5 fw-bolder text-dark bg-light p-3">{{ form_widget(modifyTrickForm.name) }}</h1>
             </div>
         </div>
         </header>
@@ -61,7 +62,6 @@
                 <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getCreatedAt().format('d/m/Y') }}</a>
                 <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getModifiedAt().format('d/m/Y') }}</a>
             </div>
-            {{ form_start(modifyTrickForm) }}
             <div class="form-group mt-5">
                 {{ form_widget(modifyTrickForm.description) }}
             </div>
@@ -80,8 +80,8 @@
                     </div>
                 </div>
             </div>
-            {{ form_end(modifyTrickForm) }}
         </section>
+    {{ form_end(modifyTrickForm) }}
     </article>
 </div>
 {% endblock %}
