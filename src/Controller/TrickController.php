@@ -178,7 +178,7 @@ class TrickController extends AbstractController
      */
     #[Route('/modify-trick/{slug}', name: 'modify-trick', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function modifyTrick(string $slug, Request $request): Response
+    public function modifyTrick(string $slug, Request $request, ImageUpload $imageUploadService): Response
     {
         // Get trick info
         $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
@@ -195,6 +195,21 @@ class TrickController extends AbstractController
             $updateTrick->setModifiedAt(new DateTimeImmutable());
             $this->entityManager->persist($updateTrick);
             $this->entityManager->flush();
+
+            // upload images
+            $files = $form->get('imageFiles')->getData();
+            if (!empty($files)) {
+                foreach ($files as $file) {
+                    $image = new Image;
+                    $image->setImage($imageUploadService->uploadImage($file));
+                    // link uploading image with trick
+                    $image->setTrick($trick);
+                    // save image into db
+                    $this->entityManager->persist($image);
+                    $this->entityManager->flush();
+                }
+            }
+
             $this->addFlash('success', 'Le figure été modifié.');
             return $this->redirectToRoute('get-trick', ['slug' => $slug]);
         }

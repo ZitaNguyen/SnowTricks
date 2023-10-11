@@ -28,13 +28,15 @@
                 <!-- Images -->
                 {% if images is not empty %}
                     {% for image in images %}
-                    <div class="col-md-3 mb-4 media-container">
-                        <img src={{ asset('uploads/image/' ~ image.image) }} class="media" alt="...">
-                        <!-- Modify and Delete Image buttons -->
-                        <div class="d-flex justify-content-center">
-                            <a class="btn btn-light modify-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-pencil-fill"></i></a>
-                            <a class="btn btn-light ms-2 delete-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-trash-fill"></i></a>
-                            {# <a class="btn btn-light" href="{{ path('modify_image', { image_id: image.id }) }}" role="button"><i class="bi bi-pencil-fill"></i></a> #}
+                    <div class="col-md-3 mb-4 media-container" >
+                        <input type="file" accept="image/*" class="form-control" name="{{ modifyTrickForm.imageFiles.vars.full_name }}" id="imageFile-{{ image.id }}">
+                        <div class="media-container">
+                            <img src={{ asset('uploads/image/' ~ image.image) }} class="media" alt="...">
+                            <!-- Modify and Delete Image buttons -->
+                            <div class="d-flex justify-content-center">
+                                <a class="btn btn-light modify-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-pencil-fill"></i></a>
+                                <a class="btn btn-light ms-2 delete-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-trash-fill"></i></a>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
@@ -48,7 +50,6 @@
                         <div class="d-flex justify-content-center">
                             <a class="btn btn-light" href="#" role="button"><i class="bi bi-pencil-fill"></i></a>
                             <a class="btn btn-light ms-2 delete-video-button" data-video-id="{{ video.id }}" role="button"><i class="bi bi-trash-fill"></i></a>
-                            {# <a class="btn btn-light" href="{{ path('modify_video', { video_id: video.id }) }}" role="button"><i class="bi bi-pencil-fill"></i></a>#}
                         </div>
                     </div>
                     {% endfor %}

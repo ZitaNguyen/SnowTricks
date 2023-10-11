@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -37,6 +38,16 @@ class ModifyTrickFormType extends AbstractType
                 'attr'  => [
                     'class' => 'form-control',
                     'style' => 'height: 10rem'
+                ]
+            ])
+            ->add('imageFiles', FileType::class, [
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false, // Not mapped to Trick entity
+                'required' => false, // Allow empty uploads
+                'attr' => [
+                    'accept' => 'image/*',
+                    'class'  => 'form-control hidden-row'
                 ]
             ])
         ;

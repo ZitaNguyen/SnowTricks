@@ -10895,3 +10895,7 @@ a {
 .card-footer-height {
   height: 50px;
 }
+
+.hidden-row {
+  display: none;
+}
