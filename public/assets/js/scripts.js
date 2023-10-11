@@ -4,34 +4,35 @@
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-modern-business/blob/master/LICENSE)
 */
 
-/**
- * Icons scroll-up, scroll-down
- */
-const $scrollUpIcon = $("#scroll-up-icon");
-const $scrollDownIcon = $("#scroll-down-icon");
+$(function() {
+    /**
+     * Icons scroll-up, scroll-down
+     */
+    const $scrollUpIcon = $("#scroll-up-icon");
+    const $scrollDownIcon = $("#scroll-down-icon");
 
-// Show the scroll-down button initially
-$scrollDownIcon.show();
+    // Show the scroll-down button initially
+    $scrollDownIcon.show();
 
-$(window).on("scroll", function() {
-    if ($(window).scrollTop() > 100) {
-        $scrollUpIcon.show();
-    } else {
-        $scrollUpIcon.hide();
-    }
+    $(window).on("scroll", function() {
+        if ($(window).scrollTop() > 100) {
+            $scrollUpIcon.show();
+        } else {
+            $scrollUpIcon.hide();
+        }
 
-    if ($(window).height() + $(window).scrollTop() >= $(document).height()) {
-        $scrollDownIcon.hide();
-    } else {
-        $scrollDownIcon.show();
-    }
+        if ($(window).height() + $(window).scrollTop() >= $(document).height()) {
+            $scrollDownIcon.hide();
+        } else {
+            $scrollDownIcon.show();
+        }
+    });
+
+    $scrollUpIcon.on("click", function () {
+        $("html, body").animate({ scrollTop: 0 }, "fast");
+    });
+
+    $scrollDownIcon.on("click", function () {
+        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+    });
 });
-
-$scrollUpIcon.on("click", function () {
-    $("html, body").animate({ scrollTop: 0 }, "fast");
-});
-
-$scrollDownIcon.on("click", function () {
-    $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-});
-

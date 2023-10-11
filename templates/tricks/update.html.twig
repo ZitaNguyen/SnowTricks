@@ -25,26 +25,26 @@
         <!-- Post media-->
         <section class="mt-5">
             <div class="row">
-                {# images #}
+                <!-- Images -->
                 {% if images is not empty %}
                     {% for image in images %}
                     <div class="col-md-3 mb-4 media-container">
                         <img src={{ asset('uploads/image/' ~ image.image) }} class="media" alt="...">
-                        <!-- Modify and Delete buttons -->
+                        <!-- Modify and Delete Image buttons -->
                         <div class="d-flex justify-content-center">
-                            <a class="btn btn-light" href="" role="button"><i class="bi bi-pencil-fill"></i></a>
+                            <a class="btn btn-light modify-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-pencil-fill"></i></a>
                             <a class="btn btn-light ms-2 delete-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-trash-fill"></i></a>
                             {# <a class="btn btn-light" href="{{ path('modify_image', { image_id: image.id }) }}" role="button"><i class="bi bi-pencil-fill"></i></a> #}
                         </div>
                     </div>
                     {% endfor %}
                 {% endif %}
-                {# videos #}
+                <!-- Videos -->
                 {% if videos is not empty %}
                     {% for video in videos %}
                     <div class="col-md-3 mb-4 media-container">
                         <iframe src="{{ video.video }}" class="media" frameborder="0" allowfullscreen></iframe>
-                        <!-- Modify and Delete buttons -->
+                        <!-- Modify and Delete Video buttons -->
                         <div class="d-flex justify-content-center">
                             <a class="btn btn-light" href="#" role="button"><i class="bi bi-pencil-fill"></i></a>
                             <a class="btn btn-light ms-2 delete-video-button" data-video-id="{{ video.id }}" role="button"><i class="bi bi-trash-fill"></i></a>

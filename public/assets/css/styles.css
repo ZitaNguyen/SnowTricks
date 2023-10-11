@@ -10867,7 +10867,7 @@ a {
 /* Arrows to move up and down a page */
 #scroll-icons {
   position: fixed;
-  bottom: 55px;
+  bottom: 95px;
   right: 20px;
   flex-direction: column;
   gap: 10px;
@@ -10879,9 +10879,8 @@ a {
 }
 
 .arrow-icon {
-  font-size: 48px;
-  color: #007BFF;
-  /* cursor: pointer; */
+  font-size: 58px;
+  color: black;
 }
 
 /* Icons update and delete */
