@@ -7,7 +7,6 @@ use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Entity\Video;
 use App\Form\AddTrickFormType;
-use App\Form\ModifyTrickFormType;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
@@ -182,6 +181,11 @@ class TrickController extends AbstractController
     {
         // Get trick info
         $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
+        if ($trick->getUser() !== $this->getUser()) {
+            $this->addFlash('danger', 'Vous n\'avez pas l\'autorisation de modifier cette figure.');
+            return $this->redirectToRoute('get-trick', ['slug' => $slug]);
+        }
+
         $form = $this->createForm(AddTrickFormType::class, $trick);
 
         // Get images, and videos
