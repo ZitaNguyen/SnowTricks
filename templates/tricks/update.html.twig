@@ -9,7 +9,7 @@
 <div class="row gx-5">
     <!-- Post content-->
     <article>
-    {{ form_start(modifyTrickForm) }}
+    {{ form_start(addTrickForm) }}
         <!-- Post header-->
         {% if trick.getImages() is not empty%}
             <header class="bg-image py-5 position-relative" style="background-image: url({{ asset('uploads/image/' ~ trick.getImages()[0].image) }}); background-size: cover; height: 500px;">
@@ -18,7 +18,7 @@
         {% endif %}
         <div class="d-flex align-items-center justify-content-center h-100">
             <div class="text-center">
-                <h1 class="display-5 fw-bolder text-dark bg-light p-3">{{ form_widget(modifyTrickForm.name) }}</h1>
+                <h1 class="display-5 fw-bolder text-dark bg-light p-3">{{ form_widget(addTrickForm.name) }}</h1>
             </div>
         </div>
         </header>
@@ -29,26 +29,24 @@
                 {% if images is not empty %}
                     {% for image in images %}
                     <div class="col-md-3 mb-4 media-container" >
-                        <input type="file" accept="image/*" class="form-control" name="{{ modifyTrickForm.imageFiles.vars.full_name }}" id="imageFile-{{ image.id }}">
-                        <div class="media-container">
-                            <img src={{ asset('uploads/image/' ~ image.image) }} class="media" alt="...">
-                            <!-- Modify and Delete Image buttons -->
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-light modify-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-pencil-fill"></i></a>
-                                <a class="btn btn-light ms-2 delete-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-trash-fill"></i></a>
-                            </div>
+                        <input type="file" accept="image/*" name="{{ addTrickForm.imageFiles.vars.full_name }}" id="imageFile-{{ image.id }}">
+                        <img src={{ asset('uploads/image/' ~ image.image) }} class="media" alt="...">
+                        <!-- Modify and Delete Image buttons -->
+                        <div class="d-flex justify-content-center">
+                            <a class="btn btn-light modify-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-pencil-fill"></i></a>
+                            <a class="btn btn-light ms-2 delete-image-button" data-image-id="{{ image.id }}" role="button"><i class="bi bi-trash-fill"></i></a>
                         </div>
                     </div>
                     {% endfor %}
                 {% endif %}
                 <!-- Videos -->
                 {% if videos is not empty %}
-                    {% for video in videos %}
-                    <div class="col-md-3 mb-4 media-container">
+                    {% for index, video in videos %}
+                    <div class="col-md-3 mb-4 media-container" data-index="{{ index }}">
                         <iframe src="{{ video.video }}" class="media" frameborder="0" allowfullscreen></iframe>
                         <!-- Modify and Delete Video buttons -->
                         <div class="d-flex justify-content-center">
-                            <a class="btn btn-light" href="#" role="button"><i class="bi bi-pencil-fill"></i></a>
+                            <a class="btn btn-light modify-video-button" data-video-id="{{ video.id }}" role="button"><i class="bi bi-pencil-fill"></i></a>
                             <a class="btn btn-light ms-2 delete-video-button" data-video-id="{{ video.id }}" role="button"><i class="bi bi-trash-fill"></i></a>
                         </div>
                     </div>
@@ -63,26 +61,32 @@
                 <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getCreatedAt().format('d/m/Y') }}</a>
                 <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ trick.getModifiedAt().format('d/m/Y') }}</a>
             </div>
+            <div class="form-group mt-5 d-none">
+                {{ form_widget(addTrickForm.images) }}
+            </div>
+            <div class="form-group mt-5 d-none">
+                {{ form_widget(addTrickForm.videos) }}
+            </div>
             <div class="form-group mt-5">
-                {{ form_widget(modifyTrickForm.description) }}
+                {{ form_widget(addTrickForm.description) }}
             </div>
             <div class="row mt-5">
                 <div class="col-md-7 form-group">
-                    {{ form_widget(modifyTrickForm.group) }}
+                    {{ form_widget(addTrickForm.group) }}
                 </div>
                 <div class="col-md-5">
                     <div class="d-flex justify-content-end">
                         <button class="btn btn-primary me-3" id="submitButton" type="submit">
                             Enregistrer
                         </button>
-                        <button class="btn btn-danger" id="deleteButton" type="submit">
+                        <button class="btn btn-danger delete-trick-button" data-slug="{{ trick.slug }}">
                             Supprimer
                         </button>
                     </div>
                 </div>
             </div>
         </section>
-    {{ form_end(modifyTrickForm) }}
+    {{ form_end(addTrickForm) }}
     </article>
 </div>
 {% endblock %}

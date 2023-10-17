@@ -31,7 +31,7 @@ class AddTrickFormType extends AbstractType
                 'class' => Group::class,
                 'choice_label' => 'name',
                 'label' => false,
-                'placeholder' => 'Choisissez un catégorie',
+                'placeholder' => 'Choisissez une catégorie',
                 'attr'  => [
                     'class' => 'form-control',
                     'style' => 'height: 4rem',

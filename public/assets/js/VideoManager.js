@@ -27,6 +27,47 @@ $(function() {
     });
 
     /**
+     * Modify a video
+     */
+    $(".modify-video-button").on("click", function() {
+        // Get the imageID from the data attribute
+        var videoID = $(this).data('video-id');
+        var row = $(this).closest('.row');
+        var index = $(this).closest('.media-container').data('index');
+
+        // Send an AJAX request to delete the image
+        $.ajax({
+            url: '/delete-video/' + videoID,
+            method: 'DELETE',
+            success: function(response) {
+                // Remove the image container from the front end
+                $(this).closest('.media-container').remove();
+                console.log(response);
+
+                // Create a new div to wrap input video url
+                var mediaContainer = $('<div class="col-md-3 mb-4 media-container"></div>');
+
+                // Create a new input element
+                var input = $('<input>', {
+                    type: 'url',
+                    name: 'add_trick_form[videos][' + index + ']',
+                    id: 'add_trick_form_videos_' + index,
+                });
+
+                mediaContainer.append(input);
+
+                // Append the input element to the container
+                row.append(mediaContainer);
+
+            }.bind(this),
+            error: function(error) {
+                // Handle errors and display error messages
+                console.error(error);
+            }
+        });
+    });
+
+    /**
      * Delete a video
      */
     $(".delete-video-button").on("click", function() {
@@ -35,7 +76,7 @@ $(function() {
 
         // Send an AJAX request to delete the video
         $.ajax({
-            url: '/delete_video/' + videoID,
+            url: '/delete-video/' + videoID,
             method: 'DELETE',
             success: function(response) {
                 // Remove the video container from the front end

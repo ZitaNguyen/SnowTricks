@@ -163,7 +163,7 @@ class TrickController extends AbstractController
                 }
             }
 
-            $this->addFlash('success', 'Un nouveau figure été ajouté.');
+            $this->addFlash('success', 'Une nouvelle figure a été ajoutée.');
 
             return $this->redirectToRoute('home');
         }
@@ -182,7 +182,7 @@ class TrickController extends AbstractController
     {
         // Get trick info
         $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
-        $form = $this->createForm(ModifyTrickFormType::class, $trick);
+        $form = $this->createForm(AddTrickFormType::class, $trick);
 
         // Get images, and videos
         $images = $trick->getImages();
@@ -197,7 +197,7 @@ class TrickController extends AbstractController
             $this->entityManager->flush();
 
             // upload images
-            $files = $form->get('imageFiles')->getData();
+            $files = $form->get('images')->getData();
             if (!empty($files)) {
                 foreach ($files as $file) {
                     $image = new Image;
@@ -210,7 +210,21 @@ class TrickController extends AbstractController
                 }
             }
 
-            $this->addFlash('success', 'Le figure été modifié.');
+            // upload videos
+            $urls = $form->get('videos')->getData();
+            if (!empty($urls)) {
+                foreach ($urls as $url) {
+                    $video = new Video;
+                    $video->setVideo($url);
+                    // link last trick with uploading url
+                    $video->setTrick($trick);
+                    // save video into db
+                    $this->entityManager->persist($video);
+                    $this->entityManager->flush();
+                }
+            }
+
+            $this->addFlash('success', 'La figure a été modifiée.');
             return $this->redirectToRoute('get-trick', ['slug' => $slug]);
         }
 
@@ -218,7 +232,7 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'images' => $images,
             'videos' => $videos,
-            'modifyTrickForm' => $form->createView()
+            'addTrickForm' => $form->createView()
         ]);
     }
 
@@ -240,7 +254,7 @@ class TrickController extends AbstractController
             return new JsonResponse(['redirect' => $this->generateUrl('home')]);
         }
 
-        $this->addFlash('success', 'Le figure été supprimé.');
+        $this->addFlash('success', 'La figure a été supprimée.');
         // Return a JSON response with the redirect URL
         return new JsonResponse(['redirect' => $this->generateUrl('home')]);
     }

@@ -11,7 +11,7 @@ $(function() {
 
         // Send an AJAX request to delete the image
         $.ajax({
-            url: '/delete-image/' + imageID, // Replace with your Symfony route
+            url: '/delete-image/' + imageID,
             method: 'DELETE',
             success: function(response) {
                 // Remove the image container from the front end
@@ -29,13 +29,16 @@ $(function() {
         });
     });
 
+    /**
+     * Delete an image
+     */
     $(".delete-image-button").on("click", function() {
         // Get the imageID from the data attribute
         var imageID = $(this).data('image-id');
 
         // Send an AJAX request to delete the image
         $.ajax({
-            url: '/delete-image/' + imageID, // Replace with your Symfony route
+            url: '/delete-image/' + imageID,
             method: 'DELETE',
             success: function(response) {
                 // Remove the image container from the front end
