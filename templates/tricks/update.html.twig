@@ -29,7 +29,6 @@
                 {% if images is not empty %}
                     {% for image in images %}
                     <div class="col-md-3 mb-4 media-container" >
-                        <input type="file" accept="image/*" name="{{ addTrickForm.imageFiles.vars.full_name }}" id="imageFile-{{ image.id }}">
                         <img src={{ asset('uploads/image/' ~ image.image) }} class="media" alt="...">
                         <!-- Modify and Delete Image buttons -->
                         <div class="d-flex justify-content-center">
@@ -41,8 +40,8 @@
                 {% endif %}
                 <!-- Videos -->
                 {% if videos is not empty %}
-                    {% for index, video in videos %}
-                    <div class="col-md-3 mb-4 media-container" data-index="{{ index }}">
+                    {% for video in videos %}
+                    <div class="col-md-3 mb-4 media-container">
                         <iframe src="{{ video.video }}" class="media" frameborder="0" allowfullscreen></iframe>
                         <!-- Modify and Delete Video buttons -->
                         <div class="d-flex justify-content-center">

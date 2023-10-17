@@ -35,13 +35,7 @@ class AddTrickFormType extends AbstractType
                 'attr'  => [
                     'class' => 'form-control',
                     'style' => 'height: 4rem',
-                ],
-                // 'choice_attr' => function ($value) {
-                //     if ($value === null) {
-                //         return ['class' => 'text-muted'];
-                //     }
-                //     return [];
-                // }
+                ]
             ])
             ->add('description', TextareaType::class, [
                 'label' => false,
@@ -58,8 +52,7 @@ class AddTrickFormType extends AbstractType
                 'required' => false, // Allow empty uploads
                 'attr' => [
                     'accept' => 'image/*',
-                    'class'  => 'form-control',
-                    'placeholder' => 'photos'
+                    'class'  => 'form-control'
 
                 ],
                 // 'constraints' => [
@@ -76,10 +69,7 @@ class AddTrickFormType extends AbstractType
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
-                    'mapped' => false,
-                    'attr' => [
-                        'class' => 'video-urls'
-                    ]
+                    'mapped' => false
                 ])
         ;
     }

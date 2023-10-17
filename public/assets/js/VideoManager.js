@@ -33,7 +33,6 @@ $(function() {
         // Get the imageID from the data attribute
         var videoID = $(this).data('video-id');
         var row = $(this).closest('.row');
-        var index = $(this).closest('.media-container').data('index');
 
         // Send an AJAX request to delete the image
         $.ajax({
@@ -50,8 +49,7 @@ $(function() {
                 // Create a new input element
                 var input = $('<input>', {
                     type: 'url',
-                    name: 'add_trick_form[videos][' + index + ']',
-                    id: 'add_trick_form_videos_' + index,
+                    name: 'add_trick_form[videos][]'
                 });
 
                 mediaContainer.append(input);
