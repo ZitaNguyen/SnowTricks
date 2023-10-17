@@ -51,7 +51,7 @@ class TrickController extends AbstractController
     /**
      * Tricks page
      */
-    #[Route('/tricks', name: 'all_tricks', methods: ['GET'])]
+    #[Route('/tricks', name: 'all-tricks', methods: ['GET'])]
     public function getTricks(Request $request): Response
     {
         // Get tricks
@@ -65,7 +65,7 @@ class TrickController extends AbstractController
     /**
      * Get details of a trick
      */
-    #[Route('/trick/{slug}', name: 'get_trick', methods: ['GET', 'POST'])]
+    #[Route('/trick/{slug}', name: 'get-trick', methods: ['GET', 'POST'])]
     public function getTrick(string $slug, Request $request, PaginatorInterface $paginator): Response
     {
         // Find the Trick by its slug
@@ -98,7 +98,7 @@ class TrickController extends AbstractController
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('get_trick', ['slug' => $slug]);
+            return $this->redirectToRoute('get-trick', ['slug' => $slug]);
         }
 
         return $this->render('tricks/get.html.twig', [
@@ -113,7 +113,7 @@ class TrickController extends AbstractController
     /**
      * Add a new trick
      */
-    #[Route('/add_trick', name: 'add_trick', methods: ['GET', 'POST'])]
+    #[Route('/add-trick', name: 'add-trick', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function addTrick(Request $request, ImageUpload $imageUploadService): Response
     {
@@ -163,7 +163,7 @@ class TrickController extends AbstractController
                 }
             }
 
-            $this->addFlash('success', 'Un nouveau figure été ajouté.');
+            $this->addFlash('success', 'Une nouvelle figure a été ajoutée.');
 
             return $this->redirectToRoute('home');
         }
@@ -176,13 +176,13 @@ class TrickController extends AbstractController
     /**
      * Modify a trick
      */
-    #[Route('/modify_trick/{slug}', name: 'modify_trick', methods: ['GET', 'POST'])]
+    #[Route('/modify-trick/{slug}', name: 'modify-trick', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function modifyTrick(string $slug, Request $request): Response
+    public function modifyTrick(string $slug, Request $request, ImageUpload $imageUploadService): Response
     {
         // Get trick info
         $trick = $this->trickRepository->findOneBy(['slug' => $slug]);
-        $form = $this->createForm(ModifyTrickFormType::class, $trick);
+        $form = $this->createForm(AddTrickFormType::class, $trick);
 
         // Get images, and videos
         $images = $trick->getImages();
@@ -195,15 +195,44 @@ class TrickController extends AbstractController
             $updateTrick->setModifiedAt(new DateTimeImmutable());
             $this->entityManager->persist($updateTrick);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Le figure été modifié.');
-            return $this->redirectToRoute('get_trick', ['slug' => $slug]);
+
+            // upload images
+            $files = $form->get('images')->getData();
+            if (!empty($files)) {
+                foreach ($files as $file) {
+                    $image = new Image;
+                    $image->setImage($imageUploadService->uploadImage($file));
+                    // link uploading image with trick
+                    $image->setTrick($trick);
+                    // save image into db
+                    $this->entityManager->persist($image);
+                    $this->entityManager->flush();
+                }
+            }
+
+            // upload videos
+            $urls = $form->get('videos')->getData();
+            if (!empty($urls)) {
+                foreach ($urls as $url) {
+                    $video = new Video;
+                    $video->setVideo($url);
+                    // link last trick with uploading url
+                    $video->setTrick($trick);
+                    // save video into db
+                    $this->entityManager->persist($video);
+                    $this->entityManager->flush();
+                }
+            }
+
+            $this->addFlash('success', 'La figure a été modifiée.');
+            return $this->redirectToRoute('get-trick', ['slug' => $slug]);
         }
 
         return $this->render('tricks/update.html.twig', [
             'trick' => $trick,
             'images' => $images,
             'videos' => $videos,
-            'modifyTrickForm' => $form->createView()
+            'addTrickForm' => $form->createView()
         ]);
     }
 
@@ -225,7 +254,7 @@ class TrickController extends AbstractController
             return new JsonResponse(['redirect' => $this->generateUrl('home')]);
         }
 
-        $this->addFlash('success', 'Le figure été supprimé.');
+        $this->addFlash('success', 'La figure a été supprimée.');
         // Return a JSON response with the redirect URL
         return new JsonResponse(['redirect' => $this->generateUrl('home')]);
     }

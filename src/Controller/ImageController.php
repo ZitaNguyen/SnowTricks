@@ -20,7 +20,7 @@ class ImageController extends AbstractController
     /**
      * Delete an image
      */
-    #[Route('/delete_image/{imageID}', name: 'delete_image', methods: ['DELETE'])]
+    #[Route('/delete-image/{imageID}', name: 'delete-image', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function deleteImage(int $imageID)
     {

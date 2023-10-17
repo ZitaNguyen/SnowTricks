@@ -20,7 +20,7 @@ class VideoController extends AbstractController
     /**
      * Delete a video
      */
-    #[Route('/delete_video/{videoID}', name: 'delete_video', methods: ['DELETE'])]
+    #[Route('/delete-video/{videoID}', name: 'delete-video', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function deleteVideo(int $videoID)
     {

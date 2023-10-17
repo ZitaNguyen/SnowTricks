@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block header %}
-<header class="bg-image py-5 d-flex align-items-center justify-content-center" style="background-image: url({{ asset('image/snowtricks.jpg') }}); background-size: cover; height: 500px;">>
+<header class="bg-image py-5 d-flex align-items-center justify-content-center" style="background-image: url({{ asset('image/snowtricks.jpg') }}); background-size: cover; height: 800px;">>
     <div class="container px-5">
         <div class="my-5 text-center">
             <h1 class="display-5 fw-bolder text-white mb-2">Explorez l'art de glisser avec style</h1>
@@ -37,7 +37,7 @@
                     {% if is_granted('ROLE_USER') and app.user == trick.getUser() %}
                         <div class="row card-footer-height">
                             <div class="col-md-7 my-auto">
-                                <a href="{{ path('get_trick', { slug: trick.slug }) }}">
+                                <a href="{{ path('get-trick', { slug: trick.slug }) }}">
                                 {% if trick.name|length > 15 %}
                                     {{ trick.name|slice(0, 15)|capitalize }}...
                                 {% else %}
@@ -47,13 +47,13 @@
                             </div>
                              <!-- Modify and Delete Trick buttons -->
                             <div class="col-md-5 d-flex align-items-center justify-content-around">
-                                <a class="btn btn-light" href="{{ path('modify_trick', { slug: trick.slug }) }}" role="button"><i class="bi bi-pencil-fill"></i></a>
+                                <a class="btn btn-light" href="{{ path('modify-trick', { slug: trick.slug }) }}" role="button"><i class="bi bi-pencil-fill"></i></a>
                                 <a class="btn btn-light ms-2 delete-trick-button" data-slug="{{ trick.slug }}" role="button"><i class="bi bi-trash-fill"></i></a>
                             </div>
                         </div>
                     {% else %}
                         <div class="row card-footer-height">
-                            <a href="{{ path('get_trick', { slug: trick.slug }) }}" class="my-auto">
+                            <a href="{{ path('get-trick', { slug: trick.slug }) }}" class="my-auto">
                                 {% if trick.name|length > 30 %}
                                     {{ trick.name|slice(0, 30)|capitalize }}...
                                 {% else %}
