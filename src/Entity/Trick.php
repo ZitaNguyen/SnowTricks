@@ -11,7 +11,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\EntityListeners(['App\EntityListener\TrickListener'])]
-#[UniqueEntity('slug')]
+#[UniqueEntity(
+    fields: ['slug'],
+    message: 'Cette figure existe déjà.',
+)]
 class Trick
 {
     #[ORM\Id]
