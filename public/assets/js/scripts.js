@@ -35,4 +35,14 @@ $(function() {
     $scrollDownIcon.on("click", function () {
         $("html, body").animate({ scrollTop: $(document).height() }, "fast");
     });
+
+    /**
+     * Button 'See medias'
+     */
+    var $seeMediaButton = $('#see-medias');
+    var $mediaBlock = $('#media-block');
+
+    $seeMediaButton.on('click', function () {
+        $mediaBlock.removeClass("d-none d-sm-block").addClass("d-block d-sm-none");
+    });
 });
