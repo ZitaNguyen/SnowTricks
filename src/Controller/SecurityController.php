@@ -11,7 +11,7 @@ class SecurityController extends AbstractController
 {
 
     private $utils;
-    
+
 
     public function __construct(AuthenticationUtils $utils)
     {
