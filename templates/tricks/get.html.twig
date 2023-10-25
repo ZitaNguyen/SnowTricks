@@ -29,7 +29,13 @@
         {% endif %}
         </header>
         <!-- Post media-->
-        <section class="mt-5">
+        <div class="d-flex justify-content-center">
+            <button id="see-medias" class="btn btn-primary me-3 d-block d-sm-none mt-3" id="submitButton" type="submit">
+                Voir les médias
+            </button>
+        </div>
+
+        <section id="media-block" class="mt-5 d-none d-sm-block">
             <div class="row">
                 {# images #}
                 {% if images is not empty %}
