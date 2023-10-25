@@ -6,24 +6,24 @@ Le site propose un menu avec les sections suivantes : Accueil, Figures, + (Ajout
 
 Le site offre les fonctionnalités suivantes :
 
-### Page d'inscription:
+### Page d'inscription
 - Crétion un compte afin de pouvoir ajouter une nouvelle figure, modifier la figure, supprimer la figure, commentaire sur une figure
 - Un formualaire demande les informations suivantes: nom, adresse email, mot de passe
-- Une fois ces informations entrées, l'utilisateur reçoit un email permettant de valider la création du compte et d'activer le compte (via un token de validation)
+- Une fois ces informations entrées, l'utilisateur reçoit un email permettant de valider la création du compte (via un token de validation)
 
-### Page de connexion:
+### Page de connexion
 - Connexion avec votre nom et mot de passe
 - Un bouton "mot de passe oublié" redirige l'utilisateur sur la page de mot de passe oublié.
 
-### Page de mot de passe oublié:
+### Page de mot de passe oublié
 - L'utilisateur remplit son nom via un formulaire.
 - Si son nom est bien enregistré dans la base de donné, il recevra un email avec un lien pour créer de nouveau mot de passe, qui l'emmènera vers la page de réinitialisation du mot de passe.
 
-### Page de réinitialisation du mot de passe:
+### Page de réinitialisation du mot de passe
 - L'utilisateur peut entrer un nouveau mot de passe via un formulaire.
 - Une fois son mot de passe changé, l'utilisateur sera redirigé vers la page d'accueil.
 
-### Page d'accueil:
+### Page d'accueil
 - La page est accessible par tous les utilisateurs.
 - Affichage les douze dernière figures du site.
 - Pagination pour consulter des figures suivants.
@@ -31,14 +31,14 @@ Le site offre les fonctionnalités suivantes :
 - Il y a des icônes "crayon" et "poubelle" pour modifier ou supprimer la figure (si vous êtes l'auteur de la figure).
 - Il y a des flèches pour remonter en haut et descendre en bas de la page avec jQuery.
 
-### Page des figures:
+### Page des figures
 - Affichage de la liste des figures avec une pagination pour consulter des figures suivantes.
 - Il y a des flèches pour remonter en haut et descendre en bas de la page avec jQuery.
 
-### Page d'ajout d'une figure:
+### Page d'ajout d'une figure
 - Un formulaire comprend un champ pour le nom du figure, un champ pour la discription, un menu déroulant pour choisir la catégorie , un champ pour télécharger un ou plusieurs photos, un bouton pour ajouter un ou plusieurs videos (géré par jQuery)
 
-### Page de détail d'une figure:
+### Page de détail d'une figure
 - Affichage les détails d'une figure (description, photos, videos, commentaires)
 - Il y a les boutons 'modifier' et 'supprimer' qui apparaissent lorsque l'utilisateur est connecté et est l'auteur de cette figure.
 - La modification, la suppression des photos, des videos et de la figure est réalisée par jQuery.
