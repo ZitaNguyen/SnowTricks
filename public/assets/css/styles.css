@@ -10899,3 +10899,8 @@ a {
 .hidden-row {
   display: none;
 }
+
+.card-img-top {
+  object-fit: cover;
+  height: 200px;
+}
